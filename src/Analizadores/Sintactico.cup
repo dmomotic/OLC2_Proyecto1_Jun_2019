@@ -140,11 +140,12 @@ L_VARIABLES ::= L_VARIABLES:a coma id:b         {: RESULT=a; RESULT.add(b); :}
     | id:a                                      {: RESULT=new LinkedList<>(); RESULT.add(a); :}
 ;
 
-EXP ::= menos EXP:a {:  :}%prec umenos
+EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.TipoO.NEGATIVO); :}%prec umenos
     | EXP:a mas:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.SUMA,b); :}
-    | EXP:a menos:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.RESTA,b); :}
-    | EXP:a por:c EXP:b           {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.MULTIPLICACION,b); :}
-    | EXP:a div:c EXP:b           {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.DIVISION,b); :}
+    | EXP:a menos:c EXP:b       {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.RESTA,b); :}
+    | EXP:a por:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.MULTIPLICACION,b); :}
+    | EXP:a div:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.DIVISION,b); :}
+    | EXP:a potencia:c EXP:b    {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.POTENCIA,b); :}
     | id:a                      {: RESULT=new Identificador(aright,a); :}                      
     | numero:a                  {: RESULT=new Literal(aright,Integer.parseInt(a)); :}
     | decimal:a                 {: RESULT=new Literal(aright,Double.parseDouble(a)); :}

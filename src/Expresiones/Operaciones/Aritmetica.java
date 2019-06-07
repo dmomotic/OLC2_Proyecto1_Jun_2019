@@ -18,8 +18,8 @@ public class Aritmetica extends Operacion{
     
     @Override
     public Object getValor(Entorno e) {
-        Object val1 = opizq.getValor(e)!=null?opizq.getValor(e):null;
-        Object val2 = opder.getValor(e)!=null?opder.getValor(e):null;
+        Object val1 = opizq==null?null:opizq.getValor(e);
+        Object val2 = opder==null?null:opder.getValor(e);
         if(val1!=null && val2!=null)
         {
             Tipo super_tipo = getTipo(e);
@@ -91,6 +91,18 @@ public class Aritmetica extends Operacion{
                         + t2.get().toString() + " en linea: " + linea);
                         return null;
                     }
+                case POTENCIA:
+                    if(super_tipo.isDouble()){
+                        return Math.pow(Double.parseDouble(val1.toString()), Double.parseDouble(val2.toString()));
+                    }
+                    else if(super_tipo.isNumeric()){
+                        Double val = Math.pow(Double.parseDouble(val1.toString()), Double.parseDouble(val2.toString()));
+                        return val.intValue();
+                    }
+                    else{
+                        System.out.println("Erro!! No se puede operar la potencia con los tipos: " + t1.get() 
+                                + " y " + t2.get() + " en linea: " + linea);
+                    }
                 default:
                     System.out.println("Error!! al realizar operacion: " + operacion + " linea: " + linea);
             }
@@ -98,7 +110,7 @@ public class Aritmetica extends Operacion{
         else if(val1!=null && val2==null)
         {
             switch(operacion){
-                case RESTA:
+                case NEGATIVO:
                     Tipo super_tipo = getTipo(e);
                     if(super_tipo.isNumeric())
                         return Integer.parseInt(val1.toString()) * -1;
