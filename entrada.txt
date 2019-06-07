@@ -1,11 +1,18 @@
-int a = 5;
-int b = 0;
-int c = a;
-String d = "hola";
-c = 7 + b + 3;
-c = -c;
-println(c);
-int x = 2;
-int y = 5;
-int z = x ^ y;
-println(x<d);
+int i=5;
+char c = 'b';
+char a = 'a';
+println(!a>c);
+
+/*
+
+int a = 5+2*3;
+char b = a==11?'j':'h';
+while(true){
+	if(a==0){
+		break;
+	}
+	print(a);
+	a--;
+}
+
+*/

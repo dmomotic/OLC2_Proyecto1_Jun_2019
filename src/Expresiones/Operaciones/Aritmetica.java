@@ -31,10 +31,14 @@ public class Aritmetica extends Operacion{
                         return val1.toString() + val2.toString();
                     }
                     else if(super_tipo.isDouble()){
-                        return Double.parseDouble(val1.toString()) + Double.parseDouble(val2.toString());
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Double.parseDouble(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Double.parseDouble(val2.toString());
+                        return Double.parseDouble(a.toString()) + Double.parseDouble(b.toString());
                     }
                     else if(super_tipo.isNumeric()){
-                        return Integer.parseInt(val1.toString()) + Integer.parseInt(val2.toString());
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Integer.parseInt(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Integer.parseInt(val2.toString());
+                        return (int)a + (int)b;
                     }
                     else{
                         System.out.println("Error!! al sumar los tipos: " + t1.get().toString() + " y " 

@@ -12,6 +12,10 @@ public class Tipo {
         this.tr = tipo;
     }
     
+    public boolean isChar(){
+        return tp.equals(Simbolo.TipoS.CHAR);
+    }
+    
     public boolean isNumeric(){
         return tp.equals(Simbolo.TipoS.CHAR) || tp.equals(Simbolo.TipoS.INT);
     }
