@@ -9,7 +9,8 @@ public class Operacion extends Expresion{
     public enum TipoO{
         SUMA,RESTA,MULTIPLICACION,DIVISION,NEGATIVO,POTENCIA,
         MAYQUE,MENQUE,MAYIGUALQUE,MENIGUALQUE,
-        AND, OR, NOT
+        AND, OR, NOT,
+        IGUALQUE, DIFQUE
     }
     
     public Expresion opizq;

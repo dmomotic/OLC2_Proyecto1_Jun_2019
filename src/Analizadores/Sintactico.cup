@@ -82,7 +82,7 @@ non terminal Nodo INSTRUCCION;
 non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
-non terminal Expresion EXP;
+non terminal Expresion EXP, TERNARIO;
 
 //-------> Precedencias
 precedence left pregunta;
@@ -150,6 +150,8 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | EXP:a mayque:c EXP:b      {: RESULT=new Relacional(cright,a,Operacion.TipoO.MAYQUE,b); :}
     | EXP:a mayigualque:c EXP:b {: RESULT=new Relacional(cright,a,Operacion.TipoO.MENIGUALQUE,b); :}
     | EXP:a menigualque:c EXP:b {: RESULT=new Relacional(cright,a,Operacion.TipoO.MAYIGUALQUE,b); :}
+    | EXP:a igualque:c EXP:b    {: RESULT=new Relacional(cright,a,Operacion.TipoO.IGUALQUE,b); :}
+    | EXP:a difque:c EXP:b      {: RESULT=new Relacional(cright,a,Operacion.TipoO.DIFQUE,b); :}
     | EXP:a and:c EXP:b         {: RESULT=new Logica(cright,a,Operacion.TipoO.AND,b); :}
     | EXP:a or:c EXP:b          {: RESULT=new Logica(cright,a,Operacion.TipoO.OR,b); :}
     | not:b EXP:a               {: RESULT=new Logica(bright,a,Operacion.TipoO.NOT); :}
@@ -160,5 +162,9 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | caracter:a                {: RESULT=new Literal(aright,a.charAt(1)); :}
     | rtrue:a                   {: RESULT=new Literal(aright,true); :}
     | rfalse:a                  {: RESULT=new Literal(aright,false); :}
+    | TERNARIO:a                {: RESULT=a; :}   
+    | parizq EXP:a parder       {: RESULT=a; :}
 ;
 
+TERNARIO ::= EXP:a pregunta EXP:b dosptos:d EXP:c {: RESULT=new Ternario(dright,a,b,c); :}
+;

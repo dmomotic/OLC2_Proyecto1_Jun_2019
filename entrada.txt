@@ -1,7 +1,8 @@
 int i=5;
 char c = 'b';
 char a = 'a';
-println(!a>c);
+int d = (c=='b' || true) ? 10 : -5;
+println(d);
 
 /*
 

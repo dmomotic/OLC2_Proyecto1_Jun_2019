@@ -92,6 +92,10 @@ public class Relacional extends Operacion{
                                 + " en linea: " + linea);
                     }
                     break;
+                case IGUALQUE:
+                    return val1.equals(val2);
+                case DIFQUE:
+                    return !(val1.equals(val2));
                 default:
                     System.out.println("Error!! Al realizar operacion: " + operacion + " como operacion relacional " 
                             + " en linea: " + linea);

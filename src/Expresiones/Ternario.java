@@ -10,7 +10,8 @@ public class Ternario extends Expresion{
     Expresion isTrue;
     Expresion isFalse;
 
-    public Ternario(Expresion condicion, Expresion isTrue, Expresion isFalse) {
+    public Ternario(int linea, Expresion condicion, Expresion isTrue, Expresion isFalse) {
+        this.linea = linea;
         this.condicion = condicion;
         this.isTrue = isTrue;
         this.isFalse = isFalse;
