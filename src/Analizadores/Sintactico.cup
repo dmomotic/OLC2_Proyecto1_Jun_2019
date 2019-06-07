@@ -1,0 +1,156 @@
+/*----------------------------------------------------------------------------
+--------------------- 1ra. Area: Codigo de Usuario
+----------------------------------------------------------------------------*/
+
+//-------> Importaciones 
+//-------> Paquetes 
+
+package Analizadores;
+
+import java_cup.runtime.Symbol;
+import java.util.LinkedList;
+import Arbol.*;
+import Expresiones.*;
+import Instrucciones.*;
+import Expresiones.Operaciones.*;
+
+//-------> Codigo para el parser, variables, metodos
+
+parser code
+{:  
+    LinkedList<Nodo> arbol;
+
+    //Metodo al que se llama automaticamente ante algun error sintactico
+    public void syntax_error(Symbol s)
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        System.out.println("!!!!!!! Error Sintactico Recuperado !!!!!!!");
+        System.out.println("\t\tLexema: "+lexema);
+        System.out.println("\t\tFila: "+fila);
+        System.out.println("\t\tColumna: "+columna);
+    }
+
+    //Metodo al que se llama en el momento en que ya no es posible una recuperacion de errores
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception
+    {        
+        String lexema = s.value.toString();
+        int fila = s.right;
+        int columna = s.left;
+        
+        System.out.println("!!!!!!! Error Sintactico, Panic Mode !!!!!!! ");
+        System.out.println("\t\tLexema: "+lexema);
+        System.out.println("\t\tFila: "+fila);
+        System.out.println("\t\tColumna: "+columna);
+    }
+
+    public LinkedList<Nodo> getAST(){
+        return arbol;
+    }
+:}
+
+
+//-------> Codigo para las acciones gramaticales
+
+action code
+{:
+
+
+:}  
+
+/*----------------------------------------------------------------------------
+--------------------- 2da. Area: Declaraciones
+----------------------------------------------------------------------------*/
+
+
+//-------> Terminales
+terminal String rint, rdouble, rchar, rboolean, rstring, rtrue, rfalse;
+terminal String igual, ptocoma, coma, mas, menos, por, div, parizq, parder, punto;
+terminal String corizq, corder, llavizq, llavder, dosptos, potencia, masmas, menosmenos;
+terminal String igualque, mayque, menque, mayigualque, menigualque, difque, and, or, not;
+terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
+terminal String id, numero, decimal, caracter, cadena;
+terminal umenos;
+terminal String rprintln;
+
+//-------> No Terminales
+non terminal S;
+non terminal Instruccion DECLARACION, ASIGNACION;
+non terminal Nodo INSTRUCCION;
+non terminal LinkedList<Nodo> INSTRUCCIONES;
+non terminal Tipo TIPO_VAR;
+non terminal LinkedList<String> L_VARIABLES;
+non terminal Expresion EXP;
+
+//-------> Precedencias
+precedence left pregunta;
+
+precedence left or;
+precedence left and;
+precedence right not;
+precedence left mayque, menque, mayigualque, menigualque;
+precedence left igualque, difque;
+
+precedence left mas, menos;
+precedence left por, div;
+precedence right potencia;
+precedence left masmas, menosmenos;
+precedence right umenos;
+
+
+start with S; 
+
+/*-------------------------------------------------------------------
+--------------------- 3ra. y ultima area: Reglas Sintacticas
+-------------------------------------------------------------------*/
+
+/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                              LENGUAJE GENERICO
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+S ::= INSTRUCCIONES:a       {: parser.arbol=a; :}
+;
+
+INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b     {: RESULT=a; RESULT.add(b); :}
+    | INSTRUCCION:a                                 {: RESULT=new LinkedList<>(); RESULT.add(a); :}
+;
+
+INSTRUCCION ::= DECLARACION:a                       {: RESULT=a; :}
+    | ASIGNACION:a                                  {: RESULT=a; :}  
+    | rprintln parizq EXP:a parder ptocoma:b        {: RESULT=new Println(bright,a); :}
+;
+
+ASIGNACION ::= id:a igual EXP:b ptocoma         {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
+;
+
+DECLARACION ::= TIPO_VAR:a L_VARIABLES:b igual EXP:c ptocoma:d        {: RESULT=new Declaracion(dright,a,b,c); :}
+    | TIPO_VAR:a L_VARIABLES:b ptocoma:c                              {: RESULT=new Declaracion(cright,a,b); :}
+;
+
+TIPO_VAR ::= rint   {: RESULT=new Tipo(Simbolo.TipoS.INT); :}
+    | rdouble       {: RESULT=new Tipo(Simbolo.TipoS.DOUBLE); :}  
+    | rchar         {: RESULT=new Tipo(Simbolo.TipoS.CHAR); :}
+    | rboolean      {: RESULT=new Tipo(Simbolo.TipoS.BOOLEAN); :}
+    | rstring       {: RESULT=new Tipo(Simbolo.TipoS.STRING); :}
+;
+
+L_VARIABLES ::= L_VARIABLES:a coma id:b         {: RESULT=a; RESULT.add(b); :}
+    | id:a                                      {: RESULT=new LinkedList<>(); RESULT.add(a); :}
+;
+
+EXP ::= menos EXP:a {:  :}%prec umenos
+    | EXP:a mas:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.SUMA,b); :}
+    | EXP:a menos:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.RESTA,b); :}
+    | EXP:a por:c EXP:b           {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.MULTIPLICACION,b); :}
+    | EXP:a div:c EXP:b           {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.DIVISION,b); :}
+    | id:a                      {: RESULT=new Identificador(aright,a); :}                      
+    | numero:a                  {: RESULT=new Literal(aright,Integer.parseInt(a)); :}
+    | decimal:a                 {: RESULT=new Literal(aright,Double.parseDouble(a)); :}
+    | cadena:a                  {: RESULT=new Literal(aright,a); :}
+    | caracter:a                {: RESULT=new Literal(aright,a.charAt(1)); :}
+    | rtrue:a                   {: RESULT=new Literal(aright,true); :}
+    | rfalse:a                  {: RESULT=new Literal(aright,false); :}
+;
+
