@@ -146,6 +146,10 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | EXP:a por:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.MULTIPLICACION,b); :}
     | EXP:a div:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.DIVISION,b); :}
     | EXP:a potencia:c EXP:b    {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.POTENCIA,b); :}
+    | EXP:a menque:c EXP:b      {: RESULT=new Relacional(cright,a,Operacion.TipoO.MENQUE,b); :}      
+    | EXP:a mayque:c EXP:b      {: RESULT=new Relacional(cright,a,Operacion.TipoO.MAYQUE,b); :}
+    | EXP:a mayigualque:c EXP:b {: RESULT=new Relacional(cright,a,Operacion.TipoO.MENIGUALQUE,b); :}
+    | EXP:a menigualque:c EXP:b {: RESULT=new Relacional(cright,a,Operacion.TipoO.MAYIGUALQUE,b); :}
     | id:a                      {: RESULT=new Identificador(aright,a); :}                      
     | numero:a                  {: RESULT=new Literal(aright,Integer.parseInt(a)); :}
     | decimal:a                 {: RESULT=new Literal(aright,Double.parseDouble(a)); :}
