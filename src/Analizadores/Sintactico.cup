@@ -76,7 +76,7 @@ terminal String igualque, mayque, menque, mayigualque, menigualque, difque, and,
 terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
 terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
-terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn;
+terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault;
 
 //-------> No Terminales
 non terminal S;
@@ -86,8 +86,10 @@ non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
 non terminal Expresion EXP, TERNARIO;
-non terminal Instruccion IF;
+non terminal Instruccion IF, SWITCH;
 non terminal LinkedList<If> L_ELSE_IF;
+non terminal LinkedList<Case> BLOQUE_SWITCH;
+non terminal Case CASO_SWITCH;
 
 //-------> Precedencias
 precedence left pregunta;
@@ -133,6 +135,7 @@ INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a;
     | rcontinue:a ptocoma                                           {: RESULT=new Continue(aright); :}
     | rreturn:a ptocoma                                             {: RESULT=new Return(aright); :}
     | rreturn:a EXP:b ptocoma                                       {: RESULT=new Return(aright,b); :}
+    | SWITCH:a                                                      {: RESULT=a; :}
 ;
 
 ASIGNACION ::= id:a igual EXP:b ptocoma         {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
@@ -192,4 +195,15 @@ IF ::= rif:c parizq EXP:a parder llavizq INSTRUCCIONES:b llavder                
 
 L_ELSE_IF ::= L_ELSE_IF:a relse:d rif parizq EXP:b parder llavizq INSTRUCCIONES:c llavder   {: RESULT=a; RESULT.add(new If(dright,b,c)); :}
     | relse:c rif parizq EXP:a parder llavizq INSTRUCCIONES:b llavder                       {: RESULT=new LinkedList<>(); RESULT.add(new If(cright,a,b)); :} 
+;
+
+SWITCH ::= rswitch:c parizq EXP:a parder llavizq BLOQUE_SWITCH:b llavder    {: RESULT=new Switch(cright,a,b); :}
+;
+
+BLOQUE_SWITCH ::= BLOQUE_SWITCH:a CASO_SWITCH:b     {: RESULT=a; RESULT.add(b); :}
+    | CASO_SWITCH:a                                 {: RESULT=new LinkedList<>(); RESULT.add(a); :}
+;
+
+CASO_SWITCH ::= rcase:c EXP:a dosptos INSTRUCCIONES:b   {: RESULT=new Case(cright,a,b); :}
+    | rdefault:b dosptos INSTRUCCIONES:a                {: RESULT=new Case(bright,a,true); :}
 ;
