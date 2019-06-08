@@ -5,6 +5,8 @@ import Arbol.Expresion;
 import Arbol.Instruccion;
 import Arbol.Nodo;
 import CambioFlujo.Break;
+import CambioFlujo.Continue;
+import CambioFlujo.Return;
 import java.util.LinkedList;
 
 public class If extends Instruccion{
@@ -64,9 +66,17 @@ public class If extends Instruccion{
                         if(aux instanceof Break){
                             return (Break)aux;
                         }
+                        //Validacion de instruccion Continue
+                        else if(aux instanceof Continue){
+                            return (Continue)aux;
+                        }
                     }
                     else if(n instanceof Expresion){
-                        ((Expresion) n).getValor(nuevo);
+                        Object aux = ((Expresion) n).getValor(nuevo);
+                        //Validacion de expresion Return
+                        if(aux instanceof Return){
+                            return aux;
+                        }
                     }
                 }
             }
@@ -86,9 +96,17 @@ public class If extends Instruccion{
                                     if(aux instanceof Break){
                                         return (Break)aux;
                                     }
+                                    //Validacion de instruccion Continue
+                                    else if(aux instanceof Continue){
+                                        return (Continue)aux;
+                                    }
                                 }
                                 else if(n instanceof Expresion){
-                                    ((Expresion) n).getValor(nuevo);
+                                    Object aux = ((Expresion) n).getValor(nuevo);
+                                    //Validacion de expresion Return
+                                    if(aux instanceof Return){
+                                        return aux;
+                                    }
                                 }
                             }
                             ejecutado = true;
@@ -107,9 +125,17 @@ public class If extends Instruccion{
                             if(aux instanceof Break){
                                 return (Break)aux;
                             }
+                            //Validacion de instruccion Continue
+                            else if(aux instanceof Continue){
+                                return (Continue)aux;
+                            }
                         }
                         else if(n instanceof Expresion){
-                            ((Expresion) n).getValor(nuevo);
+                            Object aux = ((Expresion) n).getValor(nuevo);
+                            //Validacion de expresion Return
+                            if(aux instanceof Return){
+                                return aux;
+                            };
                         }
                     }  
                 }

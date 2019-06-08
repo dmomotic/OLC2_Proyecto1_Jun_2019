@@ -13,7 +13,8 @@ import java.util.LinkedList;
 
 public class Main {
     public static void main(String[] args) {
-        interpretar("entrada.txt");
+        //interpretar("entrada.txt");
+        
     }
     
     private static void interpretar(String path) {

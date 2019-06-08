@@ -1,21 +1,9 @@
+int a = 10;
 int b = 5;
-b++;
-b++;
-double d = 1.5;
-d++;
-d++;
-println(d);
-
-/*
-
-int a = 5+2*3;
-char b = a==11?'j':'h';
-while(true){
-	if(a==0){
-		break;
-	}
-	print(a);
-	a--;
+while(b>=0){
+	while(a>=0){
+		println("b: " + b + "  a: " + a);
+		a--;
+	}	
+	b--;
 }
-
-*/

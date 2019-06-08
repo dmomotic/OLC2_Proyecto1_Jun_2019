@@ -81,6 +81,8 @@ caracter = "'"[a-zA-ZñÑ0-9]"'"
 <YYINITIAL> "if"      {   return new Symbol(Simbolos.rif, yycolumn, yyline, yytext());}
 <YYINITIAL> "else"      {   return new Symbol(Simbolos.relse, yycolumn, yyline, yytext());}
 <YYINITIAL> "break"      {   return new Symbol(Simbolos.rbreak, yycolumn, yyline, yytext());}
+<YYINITIAL> "continue"      {   return new Symbol(Simbolos.rcontinue, yycolumn, yyline, yytext());}
+<YYINITIAL> "return"      {   return new Symbol(Simbolos.rreturn, yycolumn, yyline, yytext());}
 
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

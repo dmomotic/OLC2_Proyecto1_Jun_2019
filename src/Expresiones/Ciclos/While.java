@@ -6,6 +6,8 @@ import Arbol.Instruccion;
 import Arbol.Nodo;
 import Arbol.Tipo;
 import CambioFlujo.Break;
+import CambioFlujo.Continue;
+import CambioFlujo.Return;
 import java.util.LinkedList;
 
 public class While extends Instruccion{
@@ -39,9 +41,17 @@ public class While extends Instruccion{
                                 if(aux instanceof Break){
                                     return null;
                                 }
+                                //Validacion de instruccion Continue
+                                else if(aux instanceof Continue){
+                                    break;
+                                }
                             }
                             else if(n instanceof Expresion){
-                                ((Expresion) n).getValor(nuevo);
+                                Object aux = ((Expresion) n).getValor(nuevo);
+                                //Validacion de expresion Return
+                                if(aux instanceof Return){
+                                    return aux;
+                                }
                             }
                         }
                     }

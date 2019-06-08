@@ -15,6 +15,7 @@ public class Simbolos {
   public static final int relse = 51;
   public static final int dosptos = 23;
   public static final int llavder = 22;
+  public static final int rreturn = 54;
   public static final int coma = 11;
   public static final int divigual = 40;
   public static final int igual = 9;
@@ -47,6 +48,7 @@ public class Simbolos {
   public static final int rfalse = 8;
   public static final int id = 42;
   public static final int potencia = 24;
+  public static final int rcontinue = 53;
   public static final int llavizq = 21;
   public static final int menigualque = 31;
   public static final int corder = 20;
@@ -114,7 +116,9 @@ public class Simbolos {
   "rwhile",
   "rif",
   "relse",
-  "rbreak"
+  "rbreak",
+  "rcontinue",
+  "rreturn"
   };
 }
 
