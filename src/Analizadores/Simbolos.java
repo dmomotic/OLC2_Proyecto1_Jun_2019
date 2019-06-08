@@ -12,6 +12,7 @@ public class Simbolos {
   public static final int mayque = 28;
   public static final int porigual = 38;
   public static final int menosigual = 39;
+  public static final int relse = 51;
   public static final int dosptos = 23;
   public static final int llavder = 22;
   public static final int coma = 11;
@@ -28,7 +29,9 @@ public class Simbolos {
   public static final int numero = 43;
   public static final int masmas = 25;
   public static final int menque = 29;
+  public static final int rif = 50;
   public static final int menos = 13;
+  public static final int rwhile = 49;
   public static final int EOF = 0;
   public static final int mas = 12;
   public static final int rint = 2;
@@ -106,7 +109,10 @@ public class Simbolos {
   "caracter",
   "cadena",
   "umenos",
-  "rprintln"
+  "rprintln",
+  "rwhile",
+  "rif",
+  "relse"
   };
 }
 

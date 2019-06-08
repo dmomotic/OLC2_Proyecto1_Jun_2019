@@ -77,6 +77,9 @@ caracter = "'"[a-zA-ZñÑ0-9]"'"
 <YYINITIAL> "true"      {   return new Symbol(Simbolos.rtrue, yycolumn, yyline, yytext());}
 <YYINITIAL> "false"      {   return new Symbol(Simbolos.rfalse, yycolumn, yyline, yytext());}
 <YYINITIAL> "println"      {   return new Symbol(Simbolos.rprintln, yycolumn, yyline, yytext());}
+<YYINITIAL> "while"      {   return new Symbol(Simbolos.rwhile, yycolumn, yyline, yytext());}
+<YYINITIAL> "if"      {   return new Symbol(Simbolos.rif, yycolumn, yyline, yytext());}
+<YYINITIAL> "else"      {   return new Symbol(Simbolos.relse, yycolumn, yyline, yytext());}
 
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

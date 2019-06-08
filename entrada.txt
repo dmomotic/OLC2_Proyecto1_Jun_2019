@@ -1,8 +1,14 @@
-int i=5;
-char c = 'b';
-char a = 'a';
-int d = (c=='b' || true) ? 10 : -5;
-println(d);
+int a = 5;
+if(a==6){
+	println("hola mundo");
+}
+else if(a==7){
+	println("otra vez");
+}
+else
+{
+	println("no cumple");
+}
 
 /*
 

@@ -12,7 +12,9 @@ import java.util.LinkedList;
 import Arbol.*;
 import Expresiones.*;
 import Instrucciones.*;
+import Instrucciones.Condicionales.*;
 import Expresiones.Operaciones.*;
+import Expresiones.Ciclos.*;
 
 //-------> Codigo para el parser, variables, metodos
 
@@ -73,7 +75,7 @@ terminal String igualque, mayque, menque, mayigualque, menigualque, difque, and,
 terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
 terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
-terminal String rprintln;
+terminal String rprintln, rwhile, rif, relse;
 
 //-------> No Terminales
 non terminal S;
@@ -83,6 +85,8 @@ non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
 non terminal Expresion EXP, TERNARIO;
+non terminal Instruccion IF;
+non terminal LinkedList<If> L_ELSE_IF;
 
 //-------> Precedencias
 precedence left pregunta;
@@ -117,9 +121,11 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b     {: RESULT=a; RESULT.add(b); 
     | INSTRUCCION:a                                 {: RESULT=new LinkedList<>(); RESULT.add(a); :}
 ;
 
-INSTRUCCION ::= DECLARACION:a                       {: RESULT=a; :}
-    | ASIGNACION:a                                  {: RESULT=a; :}  
-    | rprintln parizq EXP:a parder ptocoma:b        {: RESULT=new Println(bright,a); :}
+INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a; :}
+    | ASIGNACION:a                                                  {: RESULT=a; :}  
+    | rprintln parizq EXP:a parder ptocoma:b                        {: RESULT=new Println(bright,a); :}
+    | rwhile:c parizq EXP:a parder llavizq INSTRUCCIONES:b llavder  {: RESULT=new While(cright,a,b); :}
+    | IF:a                                                          {: RESULT=a; :}
 ;
 
 ASIGNACION ::= id:a igual EXP:b ptocoma         {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
@@ -167,4 +173,14 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
 ;
 
 TERNARIO ::= EXP:a pregunta EXP:b dosptos:d EXP:c {: RESULT=new Ternario(dright,a,b,c); :}
+;
+
+IF ::= rif:c parizq EXP:a parder llavizq INSTRUCCIONES:b llavder                                                        {: RESULT=new If(cright,a,b); :}
+    | rif:d parizq EXP:a parder llavizq INSTRUCCIONES:b llavder relse:e llavizq INSTRUCCIONES:c llavder                 {: RESULT=new If(dright,a,b,new If(eright,c)); :}
+    | rif:d parizq EXP:a parder llavizq INSTRUCCIONES:b llavder L_ELSE_IF:c                                             {: RESULT=new If(dright,a,b,c); :}
+    | rif:e parizq EXP:a parder llavizq INSTRUCCIONES:b llavder L_ELSE_IF:c relse:f llavizq INSTRUCCIONES:d llavder     {: RESULT=new If(eright,a,b,c,new If(fright,d)); :}
+;
+
+L_ELSE_IF ::= L_ELSE_IF:a relse:d rif parizq EXP:b parder llavizq INSTRUCCIONES:c llavder   {: RESULT=a; RESULT.add(new If(dright,b,c)); :}
+    | relse:c rif parizq EXP:a parder llavizq INSTRUCCIONES:b llavder                       {: RESULT=new LinkedList<>(); RESULT.add(new If(cright,a,b)); :} 
 ;
