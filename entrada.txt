@@ -1,8 +1,6 @@
-int cuenta = 0;
-do{
-	cuenta++;
+for (int cuenta = 0; cuenta < 5; cuenta++) {
 	if (cuenta == 3) {
 		continue;
 	}
 	println(cuenta);
-}while(cuenta < 5);
+}

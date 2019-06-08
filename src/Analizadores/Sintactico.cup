@@ -76,17 +76,17 @@ terminal String igualque, mayque, menque, mayigualque, menigualque, difque, and,
 terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
 terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
-terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault, rdo;
+terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault, rdo, rfor;
 
 //-------> No Terminales
 non terminal S;
 non terminal Instruccion DECLARACION, ASIGNACION;
-non terminal Nodo INSTRUCCION;
+non terminal Nodo INSTRUCCION, CAMBIO_FOR;
 non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
 non terminal Expresion EXP, TERNARIO;
-non terminal Instruccion IF, SWITCH, DO_WHILE;
+non terminal Instruccion IF, SWITCH, DO_WHILE, FOR;
 non terminal LinkedList<If> L_ELSE_IF;
 non terminal LinkedList<Case> BLOQUE_SWITCH;
 non terminal Case CASO_SWITCH;
@@ -137,6 +137,7 @@ INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a;
     | rreturn:a EXP:b ptocoma                                       {: RESULT=new Return(aright,b); :}
     | SWITCH:a                                                      {: RESULT=a; :}
     | DO_WHILE:a                                                    {: RESULT=a; :}
+    | FOR:a                                                         {: RESULT=a; :}
 ;
 
 ASIGNACION ::= id:a igual EXP:b ptocoma         {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
@@ -210,4 +211,12 @@ CASO_SWITCH ::= rcase:c EXP:a dosptos INSTRUCCIONES:b   {: RESULT=new Case(crigh
 ;
 
 DO_WHILE ::= rdo:c llavizq INSTRUCCIONES:a llavder rwhile parizq EXP:b parder ptocoma   {: RESULT=new DoWhile(cright,a,b); :}
+;
+
+FOR ::= rfor:e parizq ASIGNACION:a EXP:b ptocoma CAMBIO_FOR:c parder llavizq INSTRUCCIONES:d llavder    {: RESULT=new For(eright,a,b,c,d); :}
+    | rfor:e parizq DECLARACION:a EXP:b ptocoma CAMBIO_FOR:c parder llavizq INSTRUCCIONES:d llavder     {: RESULT=new For(eright,a,b,c,d); :}
+;
+
+CAMBIO_FOR ::= EXP:a  {: RESULT=a; :}  
+    | ASIGNACION:a          {: RESULT=a; :}
 ;

@@ -42,6 +42,7 @@ public class Simbolos {
   public static final int error = 1;
   public static final int rchar = 4;
   public static final int rstring = 6;
+  public static final int rfor = 59;
   public static final int or = 34;
   public static final int por = 14;
   public static final int rcase = 56;
@@ -126,7 +127,8 @@ public class Simbolos {
   "rswitch",
   "rcase",
   "rdefault",
-  "rdo"
+  "rdo",
+  "rfor"
   };
 }
 
