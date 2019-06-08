@@ -86,6 +86,7 @@ caracter = "'"[a-zA-ZñÑ0-9]"'"
 <YYINITIAL> "switch"      {   return new Symbol(Simbolos.rswitch, yycolumn, yyline, yytext());}
 <YYINITIAL> "case"      {   return new Symbol(Simbolos.rcase, yycolumn, yyline, yytext());}
 <YYINITIAL> "default"      {   return new Symbol(Simbolos.rdefault, yycolumn, yyline, yytext());}
+<YYINITIAL> "do"      {   return new Symbol(Simbolos.rdo, yycolumn, yyline, yytext());}
 
 
 

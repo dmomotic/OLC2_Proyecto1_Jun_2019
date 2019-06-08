@@ -13,8 +13,8 @@ import Arbol.*;
 import Expresiones.*;
 import Instrucciones.*;
 import Instrucciones.Condicionales.*;
+import Instrucciones.Ciclos.*;
 import Expresiones.Operaciones.*;
-import Expresiones.Ciclos.*;
 import CambioFlujo.*;
 
 //-------> Codigo para el parser, variables, metodos
@@ -76,7 +76,7 @@ terminal String igualque, mayque, menque, mayigualque, menigualque, difque, and,
 terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
 terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
-terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault;
+terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault, rdo;
 
 //-------> No Terminales
 non terminal S;
@@ -86,7 +86,7 @@ non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
 non terminal Expresion EXP, TERNARIO;
-non terminal Instruccion IF, SWITCH;
+non terminal Instruccion IF, SWITCH, DO_WHILE;
 non terminal LinkedList<If> L_ELSE_IF;
 non terminal LinkedList<Case> BLOQUE_SWITCH;
 non terminal Case CASO_SWITCH;
@@ -136,6 +136,7 @@ INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a;
     | rreturn:a ptocoma                                             {: RESULT=new Return(aright); :}
     | rreturn:a EXP:b ptocoma                                       {: RESULT=new Return(aright,b); :}
     | SWITCH:a                                                      {: RESULT=a; :}
+    | DO_WHILE:a                                                    {: RESULT=a; :}
 ;
 
 ASIGNACION ::= id:a igual EXP:b ptocoma         {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
@@ -206,4 +207,7 @@ BLOQUE_SWITCH ::= BLOQUE_SWITCH:a CASO_SWITCH:b     {: RESULT=a; RESULT.add(b); 
 
 CASO_SWITCH ::= rcase:c EXP:a dosptos INSTRUCCIONES:b   {: RESULT=new Case(cright,a,b); :}
     | rdefault:b dosptos INSTRUCCIONES:a                {: RESULT=new Case(bright,a,true); :}
+;
+
+DO_WHILE ::= rdo:c llavizq INSTRUCCIONES:a llavder rwhile parizq EXP:b parder ptocoma   {: RESULT=new DoWhile(cright,a,b); :}
 ;

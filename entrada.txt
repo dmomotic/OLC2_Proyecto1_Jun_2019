@@ -1,12 +1,8 @@
-int a = 5*3;
-switch(a+1){
-	case 15:
-		println("estoy en case 15");
-	case 16:
-		println("estoy en case 16");
-		break;
-	case 16:
-		println("otra vez en case 16");
-	default:
-		println("estoy en el default");
-}
+int cuenta = 0;
+do{
+	cuenta++;
+	if (cuenta == 3) {
+		continue;
+	}
+	println(cuenta);
+}while(cuenta < 5);

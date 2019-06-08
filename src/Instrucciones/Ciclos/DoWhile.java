@@ -1,4 +1,4 @@
-package Expresiones.Ciclos;
+package Instrucciones.Ciclos;
 
 import Arbol.Entorno;
 import Arbol.Expresion;
@@ -10,28 +10,27 @@ import CambioFlujo.Continue;
 import CambioFlujo.Return;
 import java.util.LinkedList;
 
-public class While extends Instruccion{
+public class DoWhile extends Instruccion{
 
-    Expresion condicion;
     LinkedList<Nodo> instrucciones;
-
-    public While(int linea, Expresion condicion, LinkedList<Nodo> instrucciones) {
+    Expresion valor;
+    
+    public DoWhile(int linea, LinkedList<Nodo> instrucciones, Expresion valor){
         this.linea = linea;
-        this.condicion = condicion;
         this.instrucciones = instrucciones;
+        this.valor = valor;
     }
     
     @Override
     public Object ejecutar(Entorno e) {
-        if(condicion!=null){
-            Object val = condicion.getValor(e);
-            Tipo t = condicion.getTipo(e);
-            if(t.isBoolean())
+        if(valor!=null){
+            Object val = valor.getValor(e);
+            Tipo tipo = valor.getTipo(e);
+            if(val!=null)
             {
-                if(val!=null)
-                {
-                    //Ejecucion del ciclo while
-                    while((boolean)condicion.getValor(e)){
+                if(tipo.isBoolean()){
+                    //Ejecucion do while
+                    do{
                         Entorno nuevo = new Entorno(e);
                         for(Nodo n: instrucciones){
                             if(n instanceof Instruccion){
@@ -54,23 +53,22 @@ public class While extends Instruccion{
                                 }
                             }
                         }
-                    }
+                    }while((boolean)valor.getValor(e));
                 }
                 else
                 {
-                    System.out.println("Error!! No se puede ejecutar el while ya que al evaluar su expresion, retorno " 
-                            + "null en linea: " + linea);
+                    System.out.println("Error!! al evaluar la expresion en do while no retorna un tipo booleano, linea: " 
+                            + valor.linea);
                 }
             }
             else
             {
-                System.out.println("Error!! No se puede ejecutar el while ya que su expresion retorna un tipo " + t.get()
-                        + " en la linea: " + linea); 
+                System.out.println("Error!! al evaluar la expresion en do while retorno null, linea: " + valor.linea);
             }
         }
         else
         {
-            System.out.println("Error!! No se puede ejecutar el while ya que su expresion es NULL en linea: " + linea);
+            System.out.println("Error!! al ejecutar do while, el valor de su expresion es null, linea: " + linea);
         }
         return null;
     }

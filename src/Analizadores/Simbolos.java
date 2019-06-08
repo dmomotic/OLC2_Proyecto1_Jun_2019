@@ -66,6 +66,7 @@ public class Simbolos {
   public static final int decimal = 44;
   public static final int rtrue = 7;
   public static final int cadena = 46;
+  public static final int rdo = 58;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -124,7 +125,8 @@ public class Simbolos {
   "rreturn",
   "rswitch",
   "rcase",
-  "rdefault"
+  "rdefault",
+  "rdo"
   };
 }
 
