@@ -1,14 +1,10 @@
-int a = 5;
-if(a==6){
-	println("hola mundo");
-}
-else if(a==7){
-	println("otra vez");
-}
-else
-{
-	println("no cumple");
-}
+int b = 5;
+b++;
+b++;
+double d = 1.5;
+d++;
+d++;
+println(d);
 
 /*
 

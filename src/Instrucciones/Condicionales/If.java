@@ -4,6 +4,7 @@ import Arbol.Entorno;
 import Arbol.Expresion;
 import Arbol.Instruccion;
 import Arbol.Nodo;
+import CambioFlujo.Break;
 import java.util.LinkedList;
 
 public class If extends Instruccion{
@@ -57,7 +58,12 @@ public class If extends Instruccion{
                 Entorno nuevo = new Entorno(e);
                 for(Nodo n: instrucciones){
                     if(n instanceof Instruccion){
-                        ((Instruccion) n).ejecutar(nuevo);
+                        //Ejecucion de instrucciones
+                        Object aux = ((Instruccion) n).ejecutar(nuevo);
+                        //Validacion de instruccion Break
+                        if(aux instanceof Break){
+                            return (Break)aux;
+                        }
                     }
                     else if(n instanceof Expresion){
                         ((Expresion) n).getValor(nuevo);
@@ -74,7 +80,12 @@ public class If extends Instruccion{
                             Entorno nuevo = new Entorno(e);
                             for(Nodo n:_if.instrucciones){
                                 if(n instanceof Instruccion){
-                                    ((Instruccion) n).ejecutar(nuevo);
+                                    //Ejecucion de instrucciones
+                                    Object aux = ((Instruccion) n).ejecutar(nuevo);
+                                    //Validacion de instruccion Break
+                                    if(aux instanceof Break){
+                                        return (Break)aux;
+                                    }
                                 }
                                 else if(n instanceof Expresion){
                                     ((Expresion) n).getValor(nuevo);
@@ -90,7 +101,12 @@ public class If extends Instruccion{
                     Entorno nuevo = new Entorno(e);
                     for(Nodo n:_else.instrucciones){
                         if(n instanceof Instruccion){
-                            ((Instruccion) n).ejecutar(nuevo);
+                            //Ejecucion de instrucciones
+                            Object aux = ((Instruccion) n).ejecutar(nuevo);
+                            //Validacion de instruccion Break
+                            if(aux instanceof Break){
+                                return (Break)aux;
+                            }
                         }
                         else if(n instanceof Expresion){
                             ((Expresion) n).getValor(nuevo);

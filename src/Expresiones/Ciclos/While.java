@@ -5,6 +5,7 @@ import Arbol.Expresion;
 import Arbol.Instruccion;
 import Arbol.Nodo;
 import Arbol.Tipo;
+import CambioFlujo.Break;
 import java.util.LinkedList;
 
 public class While extends Instruccion{
@@ -32,7 +33,12 @@ public class While extends Instruccion{
                         Entorno nuevo = new Entorno(e);
                         for(Nodo n: instrucciones){
                             if(n instanceof Instruccion){
-                                ((Instruccion) n).ejecutar(nuevo);
+                                //Ejecucion de instrucciones
+                                Object aux = ((Instruccion) n).ejecutar(nuevo);
+                                //Validacion de instruccion Break
+                                if(aux instanceof Break){
+                                    return null;
+                                }
                             }
                             else if(n instanceof Expresion){
                                 ((Expresion) n).getValor(nuevo);

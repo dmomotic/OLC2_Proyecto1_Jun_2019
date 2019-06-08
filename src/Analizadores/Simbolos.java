@@ -21,6 +21,7 @@ public class Simbolos {
   public static final int caracter = 45;
   public static final int parder = 17;
   public static final int igualque = 27;
+  public static final int rbreak = 52;
   public static final int masigual = 37;
   public static final int corizq = 19;
   public static final int menosmenos = 26;
@@ -112,7 +113,8 @@ public class Simbolos {
   "rprintln",
   "rwhile",
   "rif",
-  "relse"
+  "relse",
+  "rbreak"
   };
 }
 

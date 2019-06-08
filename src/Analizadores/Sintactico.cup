@@ -15,6 +15,7 @@ import Instrucciones.*;
 import Instrucciones.Condicionales.*;
 import Expresiones.Operaciones.*;
 import Expresiones.Ciclos.*;
+import CambioFlujo.*;
 
 //-------> Codigo para el parser, variables, metodos
 
@@ -75,7 +76,7 @@ terminal String igualque, mayque, menque, mayigualque, menigualque, difque, and,
 terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
 terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
-terminal String rprintln, rwhile, rif, relse;
+terminal String rprintln, rwhile, rif, relse, rbreak;
 
 //-------> No Terminales
 non terminal S;
@@ -126,6 +127,9 @@ INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a;
     | rprintln parizq EXP:a parder ptocoma:b                        {: RESULT=new Println(bright,a); :}
     | rwhile:c parizq EXP:a parder llavizq INSTRUCCIONES:b llavder  {: RESULT=new While(cright,a,b); :}
     | IF:a                                                          {: RESULT=a; :}
+    | rbreak:a ptocoma                                              {: RESULT=new Break(aright); :}
+    | id:a menosmenos ptocoma                                       {: RESULT=new Decremento(aright,new Identificador(aright,a)); :}
+    | id:a masmas ptocoma                                           {: RESULT=new Incremento(aright,new Identificador(aright,a)); :}
 ;
 
 ASIGNACION ::= id:a igual EXP:b ptocoma         {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
@@ -170,6 +174,8 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | rfalse:a                  {: RESULT=new Literal(aright,false); :}
     | TERNARIO:a                {: RESULT=a; :}   
     | parizq EXP:a parder       {: RESULT=a; :}
+    | id:a menosmenos           {: RESULT=new Decremento(aright,new Identificador(aright,a)); :}
+    | id:a masmas               {: RESULT=new Incremento(aright,new Identificador(aright,a)); :}
 ;
 
 TERNARIO ::= EXP:a pregunta EXP:b dosptos:d EXP:c {: RESULT=new Ternario(dright,a,b,c); :}
