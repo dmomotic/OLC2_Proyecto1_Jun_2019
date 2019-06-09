@@ -88,6 +88,9 @@ caracter = "'"[a-zA-ZñÑ0-9]"'"
 <YYINITIAL> "default"      {   return new Symbol(Simbolos.rdefault, yycolumn, yyline, yytext());}
 <YYINITIAL> "do"      {   return new Symbol(Simbolos.rdo, yycolumn, yyline, yytext());}
 <YYINITIAL> "for"      {   return new Symbol(Simbolos.rfor, yycolumn, yyline, yytext());}
+<YYINITIAL> "print"      {   return new Symbol(Simbolos.rprint, yycolumn, yyline, yytext());}
+<YYINITIAL> "read_file"      {   return new Symbol(Simbolos.rreadfile, yycolumn, yyline, yytext());}
+<YYINITIAL> "write_file"      {   return new Symbol(Simbolos.rwritefile, yycolumn, yyline, yytext());}
 
 
 

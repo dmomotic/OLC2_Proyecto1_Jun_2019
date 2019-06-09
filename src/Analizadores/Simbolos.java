@@ -14,6 +14,7 @@ public class Simbolos {
   public static final int menosigual = 39;
   public static final int relse = 51;
   public static final int dosptos = 23;
+  public static final int rwritefile = 62;
   public static final int llavder = 22;
   public static final int rreturn = 54;
   public static final int rdefault = 57;
@@ -52,12 +53,14 @@ public class Simbolos {
   public static final int rfalse = 8;
   public static final int id = 42;
   public static final int potencia = 24;
+  public static final int rprint = 60;
   public static final int rcontinue = 53;
   public static final int llavizq = 21;
   public static final int menigualque = 31;
   public static final int corder = 20;
   public static final int not = 35;
   public static final int and = 33;
+  public static final int rreadfile = 61;
   public static final int umenos = 47;
   public static final int parizq = 16;
   public static final int rdouble = 3;
@@ -128,7 +131,10 @@ public class Simbolos {
   "rcase",
   "rdefault",
   "rdo",
-  "rfor"
+  "rfor",
+  "rprint",
+  "rreadfile",
+  "rwritefile"
   };
 }
 

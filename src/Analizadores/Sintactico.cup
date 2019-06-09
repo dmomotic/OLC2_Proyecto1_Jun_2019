@@ -16,6 +16,8 @@ import Instrucciones.Condicionales.*;
 import Instrucciones.Ciclos.*;
 import Expresiones.Operaciones.*;
 import CambioFlujo.*;
+import FuncionesNativas.*;
+import Excepciones.*;
 
 //-------> Codigo para el parser, variables, metodos
 
@@ -77,6 +79,7 @@ terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
 terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
 terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault, rdo, rfor;
+terminal String rprint, rreadfile, rwritefile;
 
 //-------> No Terminales
 non terminal S;
@@ -85,8 +88,8 @@ non terminal Nodo INSTRUCCION, CAMBIO_FOR;
 non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
-non terminal Expresion EXP, TERNARIO;
-non terminal Instruccion IF, SWITCH, DO_WHILE, FOR;
+non terminal Expresion EXP, TERNARIO, READ_FILE;
+non terminal Instruccion IF, SWITCH, DO_WHILE, FOR, WRITE_FILE;
 non terminal LinkedList<If> L_ELSE_IF;
 non terminal LinkedList<Case> BLOQUE_SWITCH;
 non terminal Case CASO_SWITCH;
@@ -127,6 +130,7 @@ INSTRUCCIONES ::= INSTRUCCIONES:a INSTRUCCION:b     {: RESULT=a; RESULT.add(b); 
 INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a; :}
     | ASIGNACION:a                                                  {: RESULT=a; :}  
     | rprintln parizq EXP:a parder ptocoma:b                        {: RESULT=new Println(bright,a); :}
+    | rprint parizq EXP:a parder ptocoma:b                          {: RESULT=new Print(bright,a); :}
     | rwhile:c parizq EXP:a parder llavizq INSTRUCCIONES:b llavder  {: RESULT=new While(cright,a,b); :}
     | IF:a                                                          {: RESULT=a; :}
     | rbreak:a ptocoma                                              {: RESULT=new Break(aright); :}
@@ -138,6 +142,7 @@ INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a;
     | SWITCH:a                                                      {: RESULT=a; :}
     | DO_WHILE:a                                                    {: RESULT=a; :}
     | FOR:a                                                         {: RESULT=a; :}
+    | WRITE_FILE:a                                                  {: RESULT=a; :}
 ;
 
 ASIGNACION ::= id:a igual EXP:b ptocoma         {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
@@ -184,6 +189,7 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | parizq EXP:a parder       {: RESULT=a; :}
     | id:a menosmenos           {: RESULT=new Decremento(aright,new Identificador(aright,a)); :}
     | id:a masmas               {: RESULT=new Incremento(aright,new Identificador(aright,a)); :}
+    | READ_FILE:a               {: RESULT=a; :}
 ;
 
 TERNARIO ::= EXP:a pregunta EXP:b dosptos:d EXP:c {: RESULT=new Ternario(dright,a,b,c); :}
@@ -219,4 +225,10 @@ FOR ::= rfor:e parizq ASIGNACION:a EXP:b ptocoma CAMBIO_FOR:c parder llavizq INS
 
 CAMBIO_FOR ::= EXP:a  {: RESULT=a; :}  
     | ASIGNACION:a          {: RESULT=a; :}
+;
+
+READ_FILE ::= rreadfile:b parizq EXP:a parder   {: RESULT=new ReadFile(bright,a); :}
+;
+
+WRITE_FILE ::= rwritefile:c parizq EXP:a coma EXP:b parder ptocoma  {: RESULT=new WriteFile(cright,a,b); :}
 ;

@@ -1,4 +1,4 @@
-package Instrucciones;
+package FuncionesNativas;
 
 import Arbol.Entorno;
 import Arbol.Expresion;
