@@ -8,10 +8,17 @@ import Arbol.Tipo;
 public class Incremento extends Expresion{
 
     Identificador id;
+    boolean postfijo;
     
     public Incremento(int linea, Identificador id){
         this.linea = linea;
         this.id = id;
+    }
+
+    public Incremento(int linea, Identificador id, boolean postfijo) {
+        this.linea = linea;
+        this.id = id;
+        this.postfijo = postfijo;
     }
     
     @Override
@@ -21,15 +28,24 @@ public class Incremento extends Expresion{
         {
             if(s.tipo.isDouble()){
                 s.valor = (double)s.valor + 1;
+                if(postfijo)
+                    return (double)s.valor - 1;
+                //prefijo
                 return s.valor;
             }
             else if(s.tipo.isChar()){
                 char aux = (char) ((char)s.valor + 1);
                 s.valor = aux;
-                return Character.getNumericValue(aux);
+                if(postfijo)
+                    return (char)(aux-1);
+                //prefijo
+                return aux;
             }
             else if(s.tipo.isNumeric()){
                 s.valor = (int)s.valor + 1;
+                if(postfijo)
+                    return (int)s.valor - 1;
+                //prefijo
                 return s.valor;
             }
             else{

@@ -29,8 +29,10 @@ public class Simbolos {
   public static final int masigual = 37;
   public static final int corizq = 19;
   public static final int menosmenos = 26;
+  public static final int rtoint = 65;
   public static final int pregunta = 36;
   public static final int difque = 32;
+  public static final int rstr = 63;
   public static final int numero = 43;
   public static final int masmas = 25;
   public static final int menque = 29;
@@ -38,8 +40,10 @@ public class Simbolos {
   public static final int menos = 13;
   public static final int rwhile = 49;
   public static final int EOF = 0;
+  public static final int rtochar = 66;
   public static final int mas = 12;
   public static final int rint = 2;
+  public static final int rtodouble = 64;
   public static final int error = 1;
   public static final int rchar = 4;
   public static final int rstring = 6;
@@ -134,7 +138,11 @@ public class Simbolos {
   "rfor",
   "rprint",
   "rreadfile",
-  "rwritefile"
+  "rwritefile",
+  "rstr",
+  "rtodouble",
+  "rtoint",
+  "rtochar"
   };
 }
 

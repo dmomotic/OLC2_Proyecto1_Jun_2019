@@ -56,7 +56,7 @@ public class If extends Instruccion{
             boolean ejecutado = false;
             Object val_cond = condicion.getValor(e);
             //Verifico las acciones para el If
-            if((boolean)val_cond){
+            if(val_cond!=null && (boolean)val_cond){
                 Entorno nuevo = new Entorno(e);
                 for(Nodo n: instrucciones){
                     if(n instanceof Instruccion){

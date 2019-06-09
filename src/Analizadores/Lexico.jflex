@@ -91,6 +91,10 @@ caracter = "'"[a-zA-ZñÑ0-9]"'"
 <YYINITIAL> "print"      {   return new Symbol(Simbolos.rprint, yycolumn, yyline, yytext());}
 <YYINITIAL> "read_file"      {   return new Symbol(Simbolos.rreadfile, yycolumn, yyline, yytext());}
 <YYINITIAL> "write_file"      {   return new Symbol(Simbolos.rwritefile, yycolumn, yyline, yytext());}
+<YYINITIAL> "str"      {   return new Symbol(Simbolos.rstr, yycolumn, yyline, yytext());}
+<YYINITIAL> "toDouble"      {   return new Symbol(Simbolos.rtodouble, yycolumn, yyline, yytext());}
+<YYINITIAL> "toInt"      {   return new Symbol(Simbolos.rtoint, yycolumn, yyline, yytext());}
+<YYINITIAL> "toChar"      {   return new Symbol(Simbolos.rtochar, yycolumn, yyline, yytext());}
 
 
 

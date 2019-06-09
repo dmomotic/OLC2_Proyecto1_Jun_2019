@@ -117,7 +117,13 @@ public class Aritmetica extends Operacion{
                 case NEGATIVO:
                     Tipo super_tipo = getTipo(e);
                     if(super_tipo.isNumeric())
+                    {
+                        //para operaciones tipo char a = 'a'; int b = -a;
+                        if(opizq.getTipo(e).isChar())
+                            return (int)((char)val1) * -1;
+                        //para el resto
                         return Integer.parseInt(val1.toString()) * -1;
+                    }
                     else if(super_tipo.isDouble())
                         return Double.parseDouble(val1.toString()) * -1;
                     else

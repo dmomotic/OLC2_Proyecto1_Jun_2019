@@ -16,6 +16,14 @@ public class Tipo {
         return tp.equals(Simbolo.TipoS.CHAR);
     }
     
+    public boolean isInt(){
+        return tp.equals(Simbolo.TipoS.INT);
+    }
+    
+    public boolean isNull(){
+        return tp.equals(Simbolo.TipoS.NULL);
+    }
+    
     public boolean isNumeric(){
         return tp.equals(Simbolo.TipoS.CHAR) || tp.equals(Simbolo.TipoS.INT);
     }

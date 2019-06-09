@@ -1,5 +1,6 @@
 package Instrucciones;
 
+import Expresiones.CastImplicito;
 import Arbol.Entorno;
 import Arbol.Expresion;
 import Arbol.Instruccion;
@@ -53,9 +54,19 @@ public class Declaracion extends Instruccion{
                             }
                             else
                             {
-                                System.out.println("Error!! No se puede asignar un tipo de dato: " + tipo_a_asignar 
+                                //Si los tipos no son iguales realizo las validaciones para el casteo implicito
+                                CastImplicito ci = new CastImplicito(linea, tipo, valor.getTipo(e), val);
+                                if(!ci.getTipo(e).isNull())
+                                {
+                                    simbolo.valor = ci.getValor(e);
+                                }
+                                //Si no cumple con las condiciones de casteo implicito
+                                else
+                                {
+                                    System.out.println("Error!! No se puede asignar un tipo de dato: " + tipo_a_asignar 
                                         + " a la variable: " + id + " de tipo: " + tipo_asignado 
                                         + " en la linea: " + linea);
+                                }
                             }
                         }
                         else

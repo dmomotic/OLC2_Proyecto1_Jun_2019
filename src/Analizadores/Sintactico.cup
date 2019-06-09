@@ -79,7 +79,7 @@ terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
 terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
 terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault, rdo, rfor;
-terminal String rprint, rreadfile, rwritefile;
+terminal String rprint, rreadfile, rwritefile, rstr, rtodouble, rtoint, rtochar;
 
 //-------> No Terminales
 non terminal S;
@@ -88,7 +88,7 @@ non terminal Nodo INSTRUCCION, CAMBIO_FOR;
 non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
-non terminal Expresion EXP, TERNARIO, READ_FILE;
+non terminal Expresion EXP, TERNARIO, READ_FILE, CAST;
 non terminal Instruccion IF, SWITCH, DO_WHILE, FOR, WRITE_FILE;
 non terminal LinkedList<If> L_ELSE_IF;
 non terminal LinkedList<Case> BLOQUE_SWITCH;
@@ -187,9 +187,12 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | rfalse:a                  {: RESULT=new Literal(aright,false); :}
     | TERNARIO:a                {: RESULT=a; :}   
     | parizq EXP:a parder       {: RESULT=a; :}
-    | id:a menosmenos           {: RESULT=new Decremento(aright,new Identificador(aright,a)); :}
-    | id:a masmas               {: RESULT=new Incremento(aright,new Identificador(aright,a)); :}
+    | id:a menosmenos           {: RESULT=new Decremento(aright,new Identificador(aright,a),true); :}
+    | id:a masmas               {: RESULT=new Incremento(aright,new Identificador(aright,a),true); :}
+    | menosmenos id:a           {: RESULT=new Decremento(aright,new Identificador(aright,a)); :}
+    | masmas id:a               {: RESULT=new Incremento(aright,new Identificador(aright,a)); :}
     | READ_FILE:a               {: RESULT=a; :}
+    | CAST:a                    {: RESULT=a; :}
 ;
 
 TERNARIO ::= EXP:a pregunta EXP:b dosptos:d EXP:c {: RESULT=new Ternario(dright,a,b,c); :}
@@ -231,4 +234,12 @@ READ_FILE ::= rreadfile:b parizq EXP:a parder   {: RESULT=new ReadFile(bright,a)
 ;
 
 WRITE_FILE ::= rwritefile:c parizq EXP:a coma EXP:b parder ptocoma  {: RESULT=new WriteFile(cright,a,b); :}
+;
+
+CAST ::= parizq:b rint parder EXP:a     {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.INT),a); :}
+    | parizq:b rchar parder EXP:a       {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.CHAR),a); :}
+    | rstr parizq EXP parder
+    | rtodouble parizq EXP parder
+    | rtoint parizq EXP parder
+    | rtochar parizq EXP parder
 ;
