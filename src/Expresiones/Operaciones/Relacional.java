@@ -85,9 +85,35 @@ public class Relacional extends Operacion {
                         }
                         break;
                     case IGUALQUE:
+                        if(tipo.isString()){
+                            return val1.toString().equals(val2.toString());
+                        }
+                        else if(tipo.isDouble()){
+                            Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Double.parseDouble(val1.toString());
+                            Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Double.parseDouble(val2.toString());
+                            return Double.parseDouble(a.toString()) == Double.parseDouble(b.toString());
+                        }
+                        else if(tipo.isNumeric()){
+                            Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Integer.parseInt(val1.toString());
+                            Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Integer.parseInt(val2.toString());
+                            return (int)a == (int)b;
+                        }
                         return val1.equals(val2);
                     case DIFQUE:
-                        return !(val1.equals(val2));
+                        if(tipo.isString()){
+                            return !val1.toString().equals(val2.toString());
+                        }
+                        else if(tipo.isDouble()){
+                            Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Double.parseDouble(val1.toString());
+                            Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Double.parseDouble(val2.toString());
+                            return Double.parseDouble(a.toString()) != Double.parseDouble(b.toString());
+                        }
+                        else if(tipo.isNumeric()){
+                            Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Integer.parseInt(val1.toString());
+                            Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Integer.parseInt(val2.toString());
+                            return (int)a != (int)b;
+                        }
+                        return !val1.equals(val2);
                     default:
                         System.out.println("Error!! Al realizar operacion: " + operacion + " como operacion relacional "
                                 + " en linea: " + linea);
