@@ -1,4 +1,25 @@
-char a = 'a';
-char b = 'b';
-char c = a + 3;
-println(c);
+int entero=45;
+double decimal = entero;
+println("decimal: " + decimal); 	//45.0
+
+String cadenita = str(++decimal);
+println("cadenita: " + cadenita);	//46.0
+
+decimal = decimal + 'a';
+println("decimal: " + decimal);		//143.0
+
+decimal = toDouble(cadenita);
+println("decimal: " + decimal);		//46.0
+
+cadenita = str((int)decimal);
+println("cadenita: " + cadenita);	//46
+
+entero = toInt(cadenita);
+println("entero: " + entero);		//46
+
+cadenita = str('a');
+char caracter = toChar(cadenita);
+println("caracter: " + caracter);	//a
+
+int a = toInt("1.5");
+println(a);

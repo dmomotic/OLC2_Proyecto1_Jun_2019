@@ -238,8 +238,8 @@ WRITE_FILE ::= rwritefile:c parizq EXP:a coma EXP:b parder ptocoma  {: RESULT=ne
 
 CAST ::= parizq:b rint parder EXP:a     {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.INT),a); :}
     | parizq:b rchar parder EXP:a       {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.CHAR),a); :}
-    | rstr parizq EXP parder
-    | rtodouble parizq EXP parder
-    | rtoint parizq EXP parder
-    | rtochar parizq EXP parder
+    | rstr:b parizq EXP:a parder        {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.STRING),a); :}
+    | rtodouble:b parizq EXP:a parder   {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.DOUBLE),a); :}
+    | rtoint:b parizq EXP:a parder      {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.INT),a); :}
+    | rtochar:b parizq EXP:a parder     {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.CHAR),a); :}
 ;
