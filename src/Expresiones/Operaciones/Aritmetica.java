@@ -47,10 +47,14 @@ public class Aritmetica extends Operacion{
                     }
                 case RESTA:
                     if(super_tipo.isDouble()){
-                        return Double.parseDouble(val1.toString()) - Double.parseDouble(val2.toString());
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Double.parseDouble(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Double.parseDouble(val2.toString());
+                        return Double.parseDouble(a.toString()) - Double.parseDouble(b.toString());
                     }
                     else if(super_tipo.isNumeric()){
-                        return Integer.parseInt(val1.toString()) - Integer.parseInt(val2.toString());
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Integer.parseInt(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Integer.parseInt(val2.toString());
+                        return (int)a - (int)b;
                     }
                     else{
                         System.out.println("Error!! al restar los tipos: " + t1.get().toString() + " y " 
@@ -59,10 +63,14 @@ public class Aritmetica extends Operacion{
                     }
                 case MULTIPLICACION:
                     if(super_tipo.isDouble()){
-                        return Double.parseDouble(val1.toString()) * Double.parseDouble(val2.toString());
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Double.parseDouble(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Double.parseDouble(val2.toString());
+                        return Double.parseDouble(a.toString()) * Double.parseDouble(b.toString());
                     }
                     else if(super_tipo.isNumeric()){
-                        return Integer.parseInt(val1.toString()) * Integer.parseInt(val2.toString());
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Integer.parseInt(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Integer.parseInt(val2.toString());
+                        return (int)a * (int)b;
                     }
                     else{
                         System.out.println("Error!! al multiplicar los tipos: " + t1.get().toString() + " y " 
@@ -71,8 +79,10 @@ public class Aritmetica extends Operacion{
                     }    
                 case DIVISION:
                     if(super_tipo.isDouble()){
-                        if(Double.parseDouble(val2.toString())!=0.0){
-                            return Double.parseDouble(val1.toString()) / Double.parseDouble(val2.toString());
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Double.parseDouble(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Double.parseDouble(val2.toString());
+                        if(Double.parseDouble(b.toString())!=0.0){
+                            return Double.parseDouble(a.toString()) / Double.parseDouble(b.toString());
                         }
                         else
                         {
@@ -81,8 +91,10 @@ public class Aritmetica extends Operacion{
                         }
                     }
                     else if(super_tipo.isNumeric()){
-                        if(Integer.parseInt(val2.toString())!=0){
-                            return Integer.parseInt(val1.toString()) / Integer.parseInt(val2.toString());
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Integer.parseInt(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Integer.parseInt(val2.toString());
+                        if(Integer.parseInt(b.toString())!=0){
+                            return (int)a / (int)b;
                         }
                         else
                         {
@@ -97,14 +109,47 @@ public class Aritmetica extends Operacion{
                     }
                 case POTENCIA:
                     if(super_tipo.isDouble()){
-                        return Math.pow(Double.parseDouble(val1.toString()), Double.parseDouble(val2.toString()));
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Double.parseDouble(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Double.parseDouble(val2.toString());
+                        return Math.pow(Double.parseDouble(a.toString()), Double.parseDouble(b.toString()));
                     }
                     else if(super_tipo.isNumeric()){
-                        Double val = Math.pow(Double.parseDouble(val1.toString()), Double.parseDouble(val2.toString()));
-                        return val.intValue();
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Integer.parseInt(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Integer.parseInt(val2.toString());
+                        return Math.pow(Double.parseDouble(a.toString()), Double.parseDouble(b.toString()));
+                        
                     }
                     else{
                         System.out.println("Erro!! No se puede operar la potencia con los tipos: " + t1.get() 
+                                + " y " + t2.get() + " en linea: " + linea);
+                    }
+                case MODULO:
+                    if(super_tipo.isDouble()){
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Double.parseDouble(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Double.parseDouble(val2.toString());
+                        if(Double.parseDouble(b.toString())!=0.0){
+                            return Double.parseDouble(a.toString()) % Double.parseDouble(b.toString());
+                        }
+                        else
+                        {
+                            System.out.println("Error!! La division modular entre 0 no es valida linea: " + linea);
+                            return null;
+                        }
+                    }
+                    else if(super_tipo.isNumeric()){
+                        Object a = t1.get().equals(Simbolo.TipoS.CHAR)?(Character)val1:Integer.parseInt(val1.toString());
+                        Object b = t2.get().equals(Simbolo.TipoS.CHAR)?(Character)val2:Integer.parseInt(val2.toString());
+                        if(Integer.parseInt(b.toString())!=0){
+                            return (int)a % (int)b;
+                        }
+                        else
+                        {
+                            System.out.println("Error!! La division modular entre 0 no es valida linea: " + linea);
+                            return null;
+                        }
+                    }
+                    else{
+                        System.out.println("Error!! No se puede operar la division modular con los tipos: " + t1.get() 
                                 + " y " + t2.get() + " en linea: " + linea);
                     }
                 default:

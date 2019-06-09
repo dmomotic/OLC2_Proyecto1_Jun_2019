@@ -79,7 +79,7 @@ terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
 terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
 terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault, rdo, rfor;
-terminal String rprint, rreadfile, rwritefile, rstr, rtodouble, rtoint, rtochar;
+terminal String rprint, rreadfile, rwritefile, rstr, rtodouble, rtoint, rtochar, rpow, porcentaje;
 
 //-------> No Terminales
 non terminal S;
@@ -88,7 +88,7 @@ non terminal Nodo INSTRUCCION, CAMBIO_FOR;
 non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
-non terminal Expresion EXP, TERNARIO, READ_FILE, CAST;
+non terminal Expresion EXP, TERNARIO, READ_FILE, CAST, POW;
 non terminal Instruccion IF, SWITCH, DO_WHILE, FOR, WRITE_FILE;
 non terminal LinkedList<If> L_ELSE_IF;
 non terminal LinkedList<Case> BLOQUE_SWITCH;
@@ -106,6 +106,7 @@ precedence left igualque, difque;
 precedence left mas, menos;
 precedence left por, div;
 precedence right potencia;
+precedence left porcentaje;
 precedence left masmas, menosmenos;
 precedence right umenos;
 
@@ -169,6 +170,7 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | EXP:a por:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.MULTIPLICACION,b); :}
     | EXP:a div:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.DIVISION,b); :}
     | EXP:a potencia:c EXP:b    {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.POTENCIA,b); :}
+    | EXP:a porcentaje:c EXP:b  {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.MODULO,b); :}
     | EXP:a menque:c EXP:b      {: RESULT=new Relacional(cright,a,Operacion.TipoO.MENQUE,b); :}      
     | EXP:a mayque:c EXP:b      {: RESULT=new Relacional(cright,a,Operacion.TipoO.MAYQUE,b); :}
     | EXP:a mayigualque:c EXP:b {: RESULT=new Relacional(cright,a,Operacion.TipoO.MAYIGUALQUE,b); :}
@@ -193,6 +195,7 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | masmas id:a               {: RESULT=new Incremento(aright,new Identificador(aright,a)); :}
     | READ_FILE:a               {: RESULT=a; :}
     | CAST:a                    {: RESULT=a; :}
+    | POW:a                     {: RESULT=a; :}
 ;
 
 TERNARIO ::= EXP:a pregunta EXP:b dosptos:d EXP:c {: RESULT=new Ternario(dright,a,b,c); :}
@@ -242,4 +245,7 @@ CAST ::= parizq:b rint parder EXP:a     {: RESULT=new CastExplicito(bright,new T
     | rtodouble:b parizq EXP:a parder   {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.DOUBLE),a); :}
     | rtoint:b parizq EXP:a parder      {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.INT),a); :}
     | rtochar:b parizq EXP:a parder     {: RESULT=new CastExplicito(bright,new Tipo(Simbolo.TipoS.CHAR),a); :}
+;
+
+POW ::= rpow:c parizq EXP:a coma EXP:b parder   {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.POTENCIA,b); :}
 ;

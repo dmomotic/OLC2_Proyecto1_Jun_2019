@@ -95,6 +95,7 @@ caracter = "'"[a-zA-ZñÑ0-9]"'"
 <YYINITIAL> "toDouble"      {   return new Symbol(Simbolos.rtodouble, yycolumn, yyline, yytext());}
 <YYINITIAL> "toInt"      {   return new Symbol(Simbolos.rtoint, yycolumn, yyline, yytext());}
 <YYINITIAL> "toChar"      {   return new Symbol(Simbolos.rtochar, yycolumn, yyline, yytext());}
+<YYINITIAL> "pow"      {   return new Symbol(Simbolos.rpow, yycolumn, yyline, yytext());}
 
 
 
@@ -135,6 +136,7 @@ caracter = "'"[a-zA-ZñÑ0-9]"'"
 <YYINITIAL> "-="         {return new Symbol(Simbolos.menosigual, yycolumn, yyline, yytext());}
 <YYINITIAL> "/="         {return new Symbol(Simbolos.divigual, yycolumn, yyline, yytext());}
 <YYINITIAL> "'"         {return new Symbol(Simbolos.comilla, yycolumn, yyline, yytext());}
+<YYINITIAL> "%"         {return new Symbol(Simbolos.porcentaje, yycolumn, yyline, yytext());}
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
                                                                OTROS (EXPRESIONES REGULARES)

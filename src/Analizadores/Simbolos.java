@@ -27,6 +27,7 @@ public class Simbolos {
   public static final int rswitch = 55;
   public static final int rbreak = 52;
   public static final int masigual = 37;
+  public static final int rpow = 67;
   public static final int corizq = 19;
   public static final int menosmenos = 26;
   public static final int rtoint = 65;
@@ -38,6 +39,7 @@ public class Simbolos {
   public static final int menque = 29;
   public static final int rif = 50;
   public static final int menos = 13;
+  public static final int porcentaje = 68;
   public static final int rwhile = 49;
   public static final int EOF = 0;
   public static final int rtochar = 66;
@@ -142,7 +144,9 @@ public class Simbolos {
   "rstr",
   "rtodouble",
   "rtoint",
-  "rtochar"
+  "rtochar",
+  "rpow",
+  "porcentaje"
   };
 }
 

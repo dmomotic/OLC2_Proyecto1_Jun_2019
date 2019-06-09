@@ -36,7 +36,10 @@ public class CastExplicito extends Expresion{
                         if(val.toString().matches("-?\\d+"))
                             return Integer.parseInt(val.toString());
                         else
+                        {
+                            System.out.println("Error!! Number Format Exception se intento convertir a entero una expresion invalida, linea: " + linea);
                             return new Excepciones.NumberFormatException(linea);
+                        }   
                     }
                     //char
                     else if(tipo_dato_a_convertir.isChar())
@@ -84,7 +87,14 @@ public class CastExplicito extends Expresion{
                         return (double)((int)((char)val));
                     //string
                     else if(tipo_dato_a_convertir.isString())
-                        return Double.parseDouble(val.toString());
+                        if(val.toString().matches("-?\\d+(\\.\\d+)?"))
+                            return Double.parseDouble(val.toString());
+                        else
+                        {
+                            System.out.println("Error!! Number Format Exception se intento convertir a double una expresion invalida, linea: " + linea);
+                            return new Excepciones.NumberFormatException(linea);
+                        }  
+                            
                     else{
                         System.out.println("Error!! no se puede castear un tipo: " + tipo_dato_a_convertir.get() 
                                 + " en la funcion toDouble(), linea: " + linea);

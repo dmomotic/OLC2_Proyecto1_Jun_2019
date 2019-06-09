@@ -7,7 +7,7 @@ import Arbol.Tipo;
 public class Operacion extends Expresion{
 
     public enum TipoO{
-        SUMA,RESTA,MULTIPLICACION,DIVISION,NEGATIVO,POTENCIA,
+        SUMA,RESTA,MULTIPLICACION,DIVISION,NEGATIVO,POTENCIA,MODULO,
         MAYQUE,MENQUE,MAYIGUALQUE,MENIGUALQUE,
         AND, OR, NOT,
         IGUALQUE, DIFQUE
