@@ -31,6 +31,8 @@ public class Logica extends Operacion{
                             return (boolean)val1 && (boolean)val2;
                         case OR:
                             return (boolean)val1 || (boolean)val2;
+                        case XOR:
+                            return (boolean)val1 ^ (boolean)val2;
                         default:
                             System.out.println("Error!! No se puede realizar la operacion logica: " + operacion 
                                     + "en linea: " + linea);

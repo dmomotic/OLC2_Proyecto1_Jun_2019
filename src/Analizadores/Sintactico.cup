@@ -95,17 +95,17 @@ non terminal LinkedList<Case> BLOQUE_SWITCH;
 non terminal Case CASO_SWITCH;
 
 //-------> Precedencias
-precedence left pregunta;
+precedence right pregunta, dosptos;
 
 precedence left or;
 precedence left and;
+precedence left potencia; //XOR
 precedence right not;
 precedence left mayque, menque, mayigualque, menigualque;
 precedence left igualque, difque;
 
 precedence left mas, menos;
 precedence left por, div;
-precedence right potencia;
 precedence left porcentaje;
 precedence left masmas, menosmenos;
 precedence right umenos;
@@ -169,7 +169,6 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | EXP:a menos:c EXP:b       {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.RESTA,b); :}
     | EXP:a por:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.MULTIPLICACION,b); :}
     | EXP:a div:c EXP:b         {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.DIVISION,b); :}
-    | EXP:a potencia:c EXP:b    {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.POTENCIA,b); :}
     | EXP:a porcentaje:c EXP:b  {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.MODULO,b); :}
     | EXP:a menque:c EXP:b      {: RESULT=new Relacional(cright,a,Operacion.TipoO.MENQUE,b); :}      
     | EXP:a mayque:c EXP:b      {: RESULT=new Relacional(cright,a,Operacion.TipoO.MAYQUE,b); :}
@@ -179,6 +178,7 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | EXP:a difque:c EXP:b      {: RESULT=new Relacional(cright,a,Operacion.TipoO.DIFQUE,b); :}
     | EXP:a and:c EXP:b         {: RESULT=new Logica(cright,a,Operacion.TipoO.AND,b); :}
     | EXP:a or:c EXP:b          {: RESULT=new Logica(cright,a,Operacion.TipoO.OR,b); :}
+    | EXP:a potencia:c EXP:b    {: RESULT=new Logica(cright,a,Operacion.TipoO.XOR,b); :}
     | not:b EXP:a               {: RESULT=new Logica(bright,a,Operacion.TipoO.NOT); :}
     | id:a                      {: RESULT=new Identificador(aright,a); :}                      
     | numero:a                  {: RESULT=new Literal(aright,Integer.parseInt(a)); :}
