@@ -68,6 +68,7 @@ public class Simbolos {
   public static final int and = 33;
   public static final int rreadfile = 61;
   public static final int umenos = 47;
+  public static final int rnew = 69;
   public static final int parizq = 16;
   public static final int rdouble = 3;
   public static final int rboolean = 5;
@@ -146,7 +147,8 @@ public class Simbolos {
   "rtoint",
   "rtochar",
   "rpow",
-  "porcentaje"
+  "porcentaje",
+  "rnew"
   };
 }
 

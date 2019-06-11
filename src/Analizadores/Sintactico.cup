@@ -79,20 +79,22 @@ terminal String pregunta, masigual, porigual, menosigual, divigual, comilla;
 terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
 terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault, rdo, rfor;
-terminal String rprint, rreadfile, rwritefile, rstr, rtodouble, rtoint, rtochar, rpow, porcentaje;
+terminal String rprint, rreadfile, rwritefile, rstr, rtodouble, rtoint, rtochar, rpow, porcentaje, rnew;
 
 //-------> No Terminales
 non terminal S;
-non terminal Instruccion DECLARACION, ASIGNACION;
+non terminal Instruccion DECLARACION, ASIGNACION, BLOQUE;
 non terminal Nodo INSTRUCCION, CAMBIO_FOR;
 non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
-non terminal Expresion EXP, TERNARIO, READ_FILE, CAST, POW;
+non terminal Expresion EXP, TERNARIO, READ_FILE, CAST, POW, ACCESO_ARREGLO;
 non terminal Instruccion IF, SWITCH, DO_WHILE, FOR, WRITE_FILE;
 non terminal LinkedList<If> L_ELSE_IF;
 non terminal LinkedList<Case> BLOQUE_SWITCH;
 non terminal Case CASO_SWITCH;
+non terminal LinkedList<Expresion> L_CORCHETES_INICIALIZADOS;
+non terminal Integer L_CORCHETES;
 
 //-------> Precedencias
 precedence right pregunta, dosptos;
@@ -144,13 +146,17 @@ INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a;
     | DO_WHILE:a                                                    {: RESULT=a; :}
     | FOR:a                                                         {: RESULT=a; :}
     | WRITE_FILE:a                                                  {: RESULT=a; :}
+    | BLOQUE:a                                                      {: RESULT=a; :}
 ;
 
 ASIGNACION ::= id:a igual EXP:b ptocoma         {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
+    | id:a L_CORCHETES_INICIALIZADOS:b igual EXP:c ptocoma  {: RESULT=new AsignacionArreglo(aright,new Identificador(aright,a),b,c); :}    
 ;
 
 DECLARACION ::= TIPO_VAR:a L_VARIABLES:b igual EXP:c ptocoma:d        {: RESULT=new Declaracion(dright,a,b,c); :}
     | TIPO_VAR:a L_VARIABLES:b ptocoma:c                              {: RESULT=new Declaracion(cright,a,b); :}
+    | TIPO_VAR L_VARIABLES L_CORCHETES ptocoma
+    | TIPO_VAR:a L_VARIABLES:b L_CORCHETES:c igual rnew TIPO_VAR:d L_CORCHETES_INICIALIZADOS:e ptocoma:f    {: RESULT=new DeclaracionArreglo(fright,a,b,c,d,e); :}
 ;
 
 TIPO_VAR ::= rint   {: RESULT=new Tipo(Simbolo.TipoS.INT); :}
@@ -196,6 +202,7 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | READ_FILE:a               {: RESULT=a; :}
     | CAST:a                    {: RESULT=a; :}
     | POW:a                     {: RESULT=a; :}
+    | ACCESO_ARREGLO:a          {: RESULT=a; :}
 ;
 
 TERNARIO ::= EXP:a pregunta EXP:b dosptos:d EXP:c {: RESULT=new Ternario(dright,a,b,c); :}
@@ -248,4 +255,18 @@ CAST ::= parizq:b rint parder EXP:a     {: RESULT=new CastExplicito(bright,new T
 ;
 
 POW ::= rpow:c parizq EXP:a coma EXP:b parder   {: RESULT=new Aritmetica(cright,a,Operacion.TipoO.POTENCIA,b); :}
+;
+
+BLOQUE ::= llavizq INSTRUCCIONES:a llavder  {: RESULT=new Bloque(a); :}
+;
+
+L_CORCHETES ::= L_CORCHETES:a corizq corder     {: RESULT=a+1; :}
+    | corizq corder                             {: RESULT=1; :}   
+;
+
+L_CORCHETES_INICIALIZADOS ::= L_CORCHETES_INICIALIZADOS:a corizq EXP:b corder   {: RESULT=a; RESULT.add(b); :}
+    | corizq EXP:a corder   {: RESULT=new LinkedList<>(); RESULT.add(a); :}
+;
+
+ACCESO_ARREGLO ::= id:a L_CORCHETES_INICIALIZADOS:b     {: RESULT=new AccesoArreglo(aright,new Identificador(aright,a),b); :}
 ;

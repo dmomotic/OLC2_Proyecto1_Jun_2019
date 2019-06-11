@@ -96,6 +96,7 @@ caracter = "'"[a-zA-ZñÑ0-9]"'"
 <YYINITIAL> "toInt"      {   return new Symbol(Simbolos.rtoint, yycolumn, yyline, yytext());}
 <YYINITIAL> "toChar"      {   return new Symbol(Simbolos.rtochar, yycolumn, yyline, yytext());}
 <YYINITIAL> "pow"      {   return new Symbol(Simbolos.rpow, yycolumn, yyline, yytext());}
+<YYINITIAL> "new"      {   return new Symbol(Simbolos.rnew, yycolumn, yyline, yytext());}
 
 
 
