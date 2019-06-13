@@ -93,8 +93,9 @@ non terminal Instruccion IF, SWITCH, DO_WHILE, FOR, WRITE_FILE;
 non terminal LinkedList<If> L_ELSE_IF;
 non terminal LinkedList<Case> BLOQUE_SWITCH;
 non terminal Case CASO_SWITCH;
-non terminal LinkedList<Expresion> L_CORCHETES_INICIALIZADOS;
+non terminal LinkedList<Expresion> L_CORCHETES_INICIALIZADOS, LE;
 non terminal Integer L_CORCHETES;
+non terminal LinkedList<Object> INIT_ARREGLO, LI;
 
 //-------> Precedencias
 precedence right pregunta, dosptos;
@@ -149,14 +150,17 @@ INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a;
     | BLOQUE:a                                                      {: RESULT=a; :}
 ;
 
-ASIGNACION ::= id:a igual EXP:b ptocoma         {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
-    | id:a L_CORCHETES_INICIALIZADOS:b igual EXP:c ptocoma  {: RESULT=new AsignacionArreglo(aright,new Identificador(aright,a),b,c); :}    
+ASIGNACION ::= id:a igual EXP:b ptocoma                                 {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
+    | id:a L_CORCHETES_INICIALIZADOS:b igual EXP:c ptocoma              {: RESULT=new AsignacionArreglo(aright,new Identificador(aright,a),b,c); :}    
+    | id:a igual rnew TIPO_VAR:b L_CORCHETES_INICIALIZADOS:c ptocoma    {: RESULT=new InicializacionArreglo(aright,new Identificador(aright,a),b,c); :}
+    | id:a igual INIT_ARREGLO:b ptocoma                                 {: RESULT=new InicializacionArreglo(aright,new Identificador(aright,a),b); :}
 ;
 
 DECLARACION ::= TIPO_VAR:a L_VARIABLES:b igual EXP:c ptocoma:d        {: RESULT=new Declaracion(dright,a,b,c); :}
     | TIPO_VAR:a L_VARIABLES:b ptocoma:c                              {: RESULT=new Declaracion(cright,a,b); :}
-    | TIPO_VAR L_VARIABLES L_CORCHETES ptocoma
+    | TIPO_VAR:a L_VARIABLES:b L_CORCHETES:c ptocoma:d                {: RESULT=new DeclaracionArreglo(dright,a,b,c); :}
     | TIPO_VAR:a L_VARIABLES:b L_CORCHETES:c igual rnew TIPO_VAR:d L_CORCHETES_INICIALIZADOS:e ptocoma:f    {: RESULT=new DeclaracionArreglo(fright,a,b,c,d,e); :}
+    | TIPO_VAR:a L_VARIABLES:b L_CORCHETES:c igual INIT_ARREGLO:d ptocoma:e {: RESULT=new DeclaracionArreglo(eright,a,b,c,d); :}
 ;
 
 TIPO_VAR ::= rint   {: RESULT=new Tipo(Simbolo.TipoS.INT); :}
@@ -236,7 +240,7 @@ FOR ::= rfor:e parizq ASIGNACION:a EXP:b ptocoma CAMBIO_FOR:c parder llavizq INS
     | rfor:e parizq DECLARACION:a EXP:b ptocoma CAMBIO_FOR:c parder llavizq INSTRUCCIONES:d llavder     {: RESULT=new For(eright,a,b,c,d); :}
 ;
 
-CAMBIO_FOR ::= EXP:a  {: RESULT=a; :}  
+CAMBIO_FOR ::= EXP:a        {: RESULT=a; :}  
     | ASIGNACION:a          {: RESULT=a; :}
 ;
 
@@ -265,8 +269,20 @@ L_CORCHETES ::= L_CORCHETES:a corizq corder     {: RESULT=a+1; :}
 ;
 
 L_CORCHETES_INICIALIZADOS ::= L_CORCHETES_INICIALIZADOS:a corizq EXP:b corder   {: RESULT=a; RESULT.add(b); :}
-    | corizq EXP:a corder   {: RESULT=new LinkedList<>(); RESULT.add(a); :}
+    | corizq EXP:a corder                                                       {: RESULT=new LinkedList<>(); RESULT.add(a); :}
 ;
 
 ACCESO_ARREGLO ::= id:a L_CORCHETES_INICIALIZADOS:b     {: RESULT=new AccesoArreglo(aright,new Identificador(aright,a),b); :}
+;
+
+INIT_ARREGLO ::= llavizq LI:a llavder   {: RESULT=new LinkedList<>(); RESULT.addAll(a); :}
+    | llavizq LE:a llavder              {: RESULT=new LinkedList<>(); RESULT.addAll(a); :}
+;
+
+LI ::= LI:a coma INIT_ARREGLO:b {: RESULT=a; RESULT.add(b); :}
+    | INIT_ARREGLO:a            {: RESULT=new LinkedList<>(); RESULT.add(a); :}
+;
+
+LE ::= LE:a coma EXP:b  {: RESULT=a; RESULT.add(b); :}
+    | EXP:a             {: RESULT=new LinkedList<>(); RESULT.add(a); :}
 ;

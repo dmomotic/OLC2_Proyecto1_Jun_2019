@@ -3,8 +3,8 @@ package Arbol;
 import java.util.LinkedList;
 
 public class NodoArreglo {
-    LinkedList<NodoArreglo> hijos;
-    Object valor;
+    public LinkedList<NodoArreglo> hijos;
+    public Object valor;
 
     public NodoArreglo(LinkedList<NodoArreglo> hijos, Object valor) {
         this.hijos = hijos;

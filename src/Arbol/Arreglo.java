@@ -4,15 +4,22 @@ import java.util.LinkedList;
 
 public class Arreglo extends Simbolo{
     
-    int dimensiones;
-    LinkedList<Integer> tamaños_dimensiones;
+    public int dimensiones;
+    public LinkedList<Integer> tamaños_dimensiones;
     
     public Arreglo(Tipo tipo, String id, Object valor) {
         super(tipo, id, valor);
     }
     
-    public Arreglo(Tipo tipo, String id) {
+    public Arreglo(Tipo tipo, String id, Object valor, int dimensiones)
+    {
+        super(tipo, id, valor);
+        this.dimensiones = dimensiones;
+    }
+    
+    public Arreglo(Tipo tipo, String id, int dimensiones) {
         super(tipo, id);
+        this.dimensiones = dimensiones;
     }
     
     public Arreglo(Tipo tipo, String id, int dimensiones, LinkedList<Integer> tamaños_dimensiones){
@@ -22,6 +29,12 @@ public class Arreglo extends Simbolo{
     }
     
     public void inicializar(){
+        //Para declaraciones sin asignacion
+        if(tamaños_dimensiones == null){
+            this.valor = new NodoArreglo();
+            return;
+        }
+        //Para declaraciones con asignacion
         NodoArreglo raiz = new NodoArreglo();
         raiz.inicializarNodo(dimensiones, 1, tamaños_dimensiones,tipo);
         this.valor = raiz;
