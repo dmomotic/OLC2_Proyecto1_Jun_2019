@@ -50,4 +50,13 @@ public class Arreglo extends Simbolo{
         return ((NodoArreglo)valor).getValor(indices.size(), 1, indices, id);
     }
     
+    public NodoArreglo getNodo(LinkedList<Integer> indices){
+        NodoArreglo nodo = (NodoArreglo)valor;
+        for(int i: indices)
+        {
+            nodo = nodo.hijos.get(i);
+        }
+        return nodo;
+    }
+    
 }

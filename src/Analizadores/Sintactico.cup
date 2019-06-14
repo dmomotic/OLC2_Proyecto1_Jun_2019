@@ -80,6 +80,7 @@ terminal String id, numero, decimal, caracter, cadena;
 terminal umenos;
 terminal String rprintln, rwhile, rif, relse, rbreak, rcontinue, rreturn, rswitch, rcase, rdefault, rdo, rfor;
 terminal String rprint, rreadfile, rwritefile, rstr, rtodouble, rtoint, rtochar, rpow, porcentaje, rnew;
+terminal String rpublic, rprivate, rprotected;
 
 //-------> No Terminales
 non terminal S;
@@ -88,14 +89,17 @@ non terminal Nodo INSTRUCCION, CAMBIO_FOR;
 non terminal LinkedList<Nodo> INSTRUCCIONES;
 non terminal Tipo TIPO_VAR;
 non terminal LinkedList<String> L_VARIABLES;
-non terminal Expresion EXP, TERNARIO, READ_FILE, CAST, POW, ACCESO_ARREGLO;
-non terminal Instruccion IF, SWITCH, DO_WHILE, FOR, WRITE_FILE;
+non terminal Expresion EXP, TERNARIO, READ_FILE, CAST, POW, ACCESO_ARREGLO, LLAMADA_FUNCION;
+non terminal Instruccion IF, SWITCH, DO_WHILE, FOR, WRITE_FILE, FUNCION;
 non terminal LinkedList<If> L_ELSE_IF;
 non terminal LinkedList<Case> BLOQUE_SWITCH;
 non terminal Case CASO_SWITCH;
 non terminal LinkedList<Expresion> L_CORCHETES_INICIALIZADOS, LE;
 non terminal Integer L_CORCHETES;
 non terminal LinkedList<Object> INIT_ARREGLO, LI;
+non terminal TipoAcceso TIPO_ACCESO;
+non terminal LinkedList<Simbolo> PARAMETROS_FUNCION;
+non terminal Simbolo PARAMETRO_FUNCION;
 
 //-------> Precedencias
 precedence right pregunta, dosptos;
@@ -148,6 +152,8 @@ INSTRUCCION ::= DECLARACION:a                                       {: RESULT=a;
     | FOR:a                                                         {: RESULT=a; :}
     | WRITE_FILE:a                                                  {: RESULT=a; :}
     | BLOQUE:a                                                      {: RESULT=a; :}
+    | FUNCION:a                                                     {: RESULT=a; :}
+    | LLAMADA_FUNCION:a ptocoma                                     {: RESULT=a; :}
 ;
 
 ASIGNACION ::= id:a igual EXP:b ptocoma                                 {: RESULT=new Asignacion(aright,new Identificador(aright,a),b); :}
@@ -160,7 +166,8 @@ DECLARACION ::= TIPO_VAR:a L_VARIABLES:b igual EXP:c ptocoma:d        {: RESULT=
     | TIPO_VAR:a L_VARIABLES:b ptocoma:c                              {: RESULT=new Declaracion(cright,a,b); :}
     | TIPO_VAR:a L_VARIABLES:b L_CORCHETES:c ptocoma:d                {: RESULT=new DeclaracionArreglo(dright,a,b,c); :}
     | TIPO_VAR:a L_VARIABLES:b L_CORCHETES:c igual rnew TIPO_VAR:d L_CORCHETES_INICIALIZADOS:e ptocoma:f    {: RESULT=new DeclaracionArreglo(fright,a,b,c,d,e); :}
-    | TIPO_VAR:a L_VARIABLES:b L_CORCHETES:c igual INIT_ARREGLO:d ptocoma:e {: RESULT=new DeclaracionArreglo(eright,a,b,c,d); :}
+    | TIPO_VAR:a L_VARIABLES:b L_CORCHETES:c igual INIT_ARREGLO:d ptocoma:e     {: RESULT=new DeclaracionArreglo(eright,a,b,c,d); :}
+    | TIPO_VAR:a L_VARIABLES:b L_CORCHETES:c igual ACCESO_ARREGLO:d ptocoma:e   {: RESULT=new DeclaracionArreglo(eright,a,b,c,(AccesoArreglo)d); :}
 ;
 
 TIPO_VAR ::= rint   {: RESULT=new Tipo(Simbolo.TipoS.INT); :}
@@ -207,6 +214,7 @@ EXP ::= menos:b EXP:a           {: RESULT=new Aritmetica(bright,a,Operacion.Tipo
     | CAST:a                    {: RESULT=a; :}
     | POW:a                     {: RESULT=a; :}
     | ACCESO_ARREGLO:a          {: RESULT=a; :}
+    | LLAMADA_FUNCION:a         {: RESULT=a; :}
 ;
 
 TERNARIO ::= EXP:a pregunta EXP:b dosptos:d EXP:c {: RESULT=new Ternario(dright,a,b,c); :}
@@ -285,4 +293,26 @@ LI ::= LI:a coma INIT_ARREGLO:b {: RESULT=a; RESULT.add(b); :}
 
 LE ::= LE:a coma EXP:b  {: RESULT=a; RESULT.add(b); :}
     | EXP:a             {: RESULT=new LinkedList<>(); RESULT.add(a); :}
+;
+
+FUNCION ::= TIPO_ACCESO TIPO_VAR id parizq parder llavizq INSTRUCCIONES llavder
+    | TIPO_VAR id parizq parder llavizq INSTRUCCIONES llavder
+    | TIPO_ACCESO:a TIPO_VAR:b id:c parizq PARAMETROS_FUNCION:d parder llavizq INSTRUCCIONES:e llavder  {: RESULT=new DeclaracionFuncion(cright,a,b,new Identificador(cright,c),d,e); :}
+    | TIPO_VAR id parizq PARAMETROS_FUNCION parder llavizq INSTRUCCIONES llavder
+; 
+
+TIPO_ACCESO ::= rpublic {: RESULT=TipoAcceso.PUBLIC; :}
+    | rprivate          {: RESULT=TipoAcceso.PRIVATE; :}
+    | rprotected        {: RESULT=TipoAcceso.PROTECTED; :}
+;
+
+PARAMETROS_FUNCION ::= PARAMETROS_FUNCION:a coma PARAMETRO_FUNCION:b    {: RESULT=a; RESULT.add(b); :}
+    | PARAMETRO_FUNCION:a                                               {: RESULT=new LinkedList<>(); RESULT.add(a); :}
+;
+
+PARAMETRO_FUNCION ::= TIPO_VAR:a id:b   {: RESULT=new Simbolo(a,b); :}
+;
+
+LLAMADA_FUNCION ::= id parizq parder
+    | id:a parizq LE:b parder           {: RESULT=new LlamadaFuncion(aright,new Identificador(aright,a),b); :}
 ;

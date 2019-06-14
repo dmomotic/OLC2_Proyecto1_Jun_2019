@@ -97,6 +97,9 @@ caracter = "'"[a-zA-ZñÑ0-9]"'"
 <YYINITIAL> "toChar"      {   return new Symbol(Simbolos.rtochar, yycolumn, yyline, yytext());}
 <YYINITIAL> "pow"      {   return new Symbol(Simbolos.rpow, yycolumn, yyline, yytext());}
 <YYINITIAL> "new"      {   return new Symbol(Simbolos.rnew, yycolumn, yyline, yytext());}
+<YYINITIAL> "public"      {   return new Symbol(Simbolos.rpublic, yycolumn, yyline, yytext());}
+<YYINITIAL> "private"      {   return new Symbol(Simbolos.rprivate, yycolumn, yyline, yytext());}
+<YYINITIAL> "protected"      {   return new Symbol(Simbolos.rprotected, yycolumn, yyline, yytext());}
 
 
 

@@ -8,76 +8,79 @@ package Analizadores;
 /** CUP generated class containing symbol constants. */
 public class Simbolos {
   /* terminals */
-  public static final int comilla = 41;
-  public static final int mayque = 28;
-  public static final int porigual = 38;
-  public static final int menosigual = 39;
-  public static final int relse = 51;
-  public static final int dosptos = 23;
-  public static final int rwritefile = 62;
-  public static final int llavder = 22;
-  public static final int rreturn = 54;
-  public static final int rdefault = 57;
-  public static final int coma = 11;
-  public static final int divigual = 40;
-  public static final int igual = 9;
-  public static final int caracter = 45;
-  public static final int parder = 17;
-  public static final int igualque = 27;
-  public static final int rswitch = 55;
-  public static final int rbreak = 52;
-  public static final int masigual = 37;
-  public static final int rpow = 67;
-  public static final int corizq = 19;
-  public static final int menosmenos = 26;
-  public static final int rtoint = 65;
-  public static final int pregunta = 36;
-  public static final int difque = 32;
-  public static final int rstr = 63;
-  public static final int numero = 43;
-  public static final int masmas = 25;
-  public static final int menque = 29;
-  public static final int rif = 50;
   public static final int menos = 13;
   public static final int porcentaje = 68;
-  public static final int rwhile = 49;
-  public static final int EOF = 0;
-  public static final int rtochar = 66;
-  public static final int mas = 12;
-  public static final int rint = 2;
-  public static final int rtodouble = 64;
-  public static final int error = 1;
-  public static final int rchar = 4;
   public static final int rstring = 6;
-  public static final int rfor = 59;
-  public static final int or = 34;
-  public static final int por = 14;
-  public static final int rcase = 56;
-  public static final int mayigualque = 30;
+  public static final int parder = 17;
+  public static final int rtoint = 65;
   public static final int punto = 18;
-  public static final int rprintln = 48;
-  public static final int rfalse = 8;
-  public static final int id = 42;
-  public static final int potencia = 24;
-  public static final int rprint = 60;
-  public static final int rcontinue = 53;
-  public static final int llavizq = 21;
-  public static final int menigualque = 31;
-  public static final int corder = 20;
-  public static final int not = 35;
-  public static final int and = 33;
-  public static final int rreadfile = 61;
-  public static final int umenos = 47;
-  public static final int rnew = 69;
-  public static final int parizq = 16;
-  public static final int rdouble = 3;
-  public static final int rboolean = 5;
-  public static final int div = 15;
   public static final int ptocoma = 10;
-  public static final int decimal = 44;
-  public static final int rtrue = 7;
+  public static final int porigual = 38;
+  public static final int rfor = 59;
+  public static final int div = 15;
+  public static final int llavder = 22;
+  public static final int divigual = 40;
+  public static final int rint = 2;
+  public static final int rreadfile = 61;
+  public static final int mas = 12;
   public static final int cadena = 46;
+  public static final int rprotected = 72;
+  public static final int rdouble = 3;
+  public static final int umenos = 47;
+  public static final int decimal = 44;
+  public static final int rprintln = 48;
+  public static final int menigualque = 31;
+  public static final int igualque = 27;
+  public static final int rtodouble = 64;
+  public static final int corder = 20;
+  public static final int masigual = 37;
+  public static final int mayigualque = 30;
+  public static final int or = 34;
+  public static final int menosigual = 39;
+  public static final int difque = 32;
+  public static final int caracter = 45;
+  public static final int comilla = 41;
+  public static final int id = 42;
+  public static final int rtrue = 7;
+  public static final int rboolean = 5;
+  public static final int parizq = 16;
+  public static final int rchar = 4;
+  public static final int menosmenos = 26;
+  public static final int dosptos = 23;
+  public static final int rnew = 69;
+  public static final int rfalse = 8;
+  public static final int pregunta = 36;
+  public static final int relse = 51;
+  public static final int and = 33;
+  public static final int rdefault = 57;
   public static final int rdo = 58;
+  public static final int llavizq = 21;
+  public static final int EOF = 0;
+  public static final int rswitch = 55;
+  public static final int rpublic = 70;
+  public static final int rreturn = 54;
+  public static final int numero = 43;
+  public static final int potencia = 24;
+  public static final int rwhile = 49;
+  public static final int error = 1;
+  public static final int menque = 29;
+  public static final int corizq = 19;
+  public static final int mayque = 28;
+  public static final int rpow = 67;
+  public static final int rbreak = 52;
+  public static final int rtochar = 66;
+  public static final int rif = 50;
+  public static final int rcase = 56;
+  public static final int por = 14;
+  public static final int rprivate = 71;
+  public static final int rprint = 60;
+  public static final int coma = 11;
+  public static final int not = 35;
+  public static final int igual = 9;
+  public static final int rcontinue = 53;
+  public static final int rstr = 63;
+  public static final int rwritefile = 62;
+  public static final int masmas = 25;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -148,7 +151,10 @@ public class Simbolos {
   "rtochar",
   "rpow",
   "porcentaje",
-  "rnew"
+  "rnew",
+  "rpublic",
+  "rprivate",
+  "rprotected"
   };
 }
 

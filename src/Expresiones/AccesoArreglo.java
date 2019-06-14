@@ -10,7 +10,9 @@ import java.util.LinkedList;
 public class AccesoArreglo extends Expresion{
 
     Identificador id;
-    LinkedList<Expresion> indices;
+    public LinkedList<Expresion> indices;
+    //Auxiliar para identificar si es un acceso al valor o acceso al nodo
+    public boolean es_acceso_a_nodo;
 
     public AccesoArreglo(int linea, Identificador id, LinkedList<Expresion> indices) {
         this.linea = linea;
@@ -18,12 +20,25 @@ public class AccesoArreglo extends Expresion{
         this.indices = indices;
     }
     
+    public AccesoArreglo(int linea, Identificador id, LinkedList<Expresion> indices, boolean es_acceso_a_nodo) {
+        this.linea = linea;
+        this.id = id;
+        this.indices = indices;
+        this.es_acceso_a_nodo = es_acceso_a_nodo;
+    }
+    
     @Override
     public Object getValor(Entorno e) {
         Object o = e.get(id.valor);
         if(o!=null){
             if(o instanceof Arreglo){
-                return ((Arreglo) o).get(getListaDeIndices(e));
+                if(!es_acceso_a_nodo){
+                    return ((Arreglo) o).get(getListaDeIndices(e));
+                }
+                else
+                {
+                    return ((Arreglo) o).getNodo(getListaDeIndices(e));
+                }
             }
             else
             {

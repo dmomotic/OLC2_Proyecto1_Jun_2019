@@ -26,6 +26,14 @@ public class Entorno {
         return null;
     }
     
+    public Entorno getGlobal(){
+        Entorno e = this;
+        while(e.padre != null){
+            e=e.padre;
+        }
+        return e;
+    }
+    
     public void set(String id, Simbolo simbolo){
         this.tabla.put(id, simbolo);
     }

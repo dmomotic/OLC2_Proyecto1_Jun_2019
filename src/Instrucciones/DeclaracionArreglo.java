@@ -7,6 +7,7 @@ import Arbol.Instruccion;
 import Arbol.NodoArreglo;
 import Arbol.Simbolo;
 import Arbol.Tipo;
+import Expresiones.AccesoArreglo;
 import Expresiones.CastImplicito;
 import java.util.LinkedList;
 
@@ -21,7 +22,18 @@ public class DeclaracionArreglo extends Instruccion {
     LinkedList<Expresion> tamaños_dimensiones;
     //Utilizados en la instanciacion de un arreglo con llaves
     LinkedList<Object> valores;
+    //Auxiliar para inidicar que es un acceso a un nodo de un arreglo
+    AccesoArreglo acceso_arreglo;
 
+    public DeclaracionArreglo(int linea, Tipo tipo_declarado, LinkedList<String> variables, int numero_dimensiones, AccesoArreglo acceso_arreglo){
+        this.linea = linea;
+        this.tipo_declarado = tipo_declarado;
+        this.variables = variables;
+        this.numero_dimensiones = numero_dimensiones;
+        this.acceso_arreglo = acceso_arreglo;
+        this.acceso_arreglo.es_acceso_a_nodo = true;
+    }
+    
     public DeclaracionArreglo(int linea, Tipo tipo_declaraado, LinkedList<String> variables, int numero_dimensiones, LinkedList<Object> valores) {
         this.linea = linea;
         this.tipo_declarado = tipo_declaraado;
@@ -48,7 +60,7 @@ public class DeclaracionArreglo extends Instruccion {
 
     @Override
     public Object ejecutar(Entorno e) {
-        if (tipo_declarado != null && variables != null && valores == null) {
+        if (tipo_declarado != null && variables != null && valores == null && acceso_arreglo==null) {
             //Declaraciones tipo int arreglo[][][] = new int[5+3][2*1][3-5];
             if (tipo_asignado != null && tipo_declarado.get().equals(tipo_asignado.get())) {
                 if (tamaños_dimensiones != null) {
@@ -82,7 +94,8 @@ public class DeclaracionArreglo extends Instruccion {
                 } else {
                     System.out.println("Error!! el tamaño de las dimensiones del arreglo es null, linea: " + linea);
                 }
-            } //Declaraciones tipo int arreglo[][][];
+            } 
+            //Declaraciones tipo int arreglo[][][];
             else if (tipo_asignado == null && tamaños_dimensiones == null) {
                 //Recorro la lista de ids
                 for (String id : variables) {
@@ -111,7 +124,7 @@ public class DeclaracionArreglo extends Instruccion {
             }
         } 
         //Declaraciones tipo int a[][]={{1,2},{2,3}};
-        else if (tipo_declarado != null && valores != null && variables != null) {
+        else if (tipo_declarado != null && valores != null && variables != null && acceso_arreglo==null) {
             //Recorro la lista de ids
                 for (String id : variables) {
                     //Si no existe la variable en el entorno
@@ -152,7 +165,27 @@ public class DeclaracionArreglo extends Instruccion {
                     }
                 }
            
-        } else {
+        } 
+        //Declaraciones tipo int a[]=b[exp];
+        else if(tipo_declarado!=null && acceso_arreglo!=null){
+            //Recorro la lista de ids
+                for (String id : variables) {
+                    //Si no existe la variable en el entorno
+                    if (e.get(id) == null) {
+                        //Si es la ultima variable de la lista, le asigno el valor
+                        if (variables.getLast().equals(id)) {
+                            //Capturo el valor nodo del arreglo del lado derecho
+                            Object aux = acceso_arreglo.getValor(e);
+                            if(aux!=null && aux instanceof NodoArreglo)
+                            {
+                                Arreglo arr = new Arreglo(tipo_declarado, id, aux, acceso_arreglo.indices.size());
+                                e.set(id, arr);
+                            }
+                        }
+                    }
+                }
+        }
+        else {
             System.out.println("Error!! en la declaracion del arreglo, ya que el tipo declarado o su id es null, linea: "
                     + linea);
         }
